@@ -1,0 +1,144 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<link href="~/lib/Fontawesome/css/all.css" rel="stylesheet" />
+@if (User.Identity.IsAuthenticated)
+{
+    if (User.IsInRole("admin"))
+    {
+        <hr />
+        <div class="row" style="text-align:center;">
+
+            <div class="col-md-3">
+                @*<div class="card card-body" onclick="location.href='../Master/CountryList';" style="cursor: pointer;">*@
+                <div class="indexicon1 card card-body" onclick="location.href='../Master/AreaList';" style="cursor: pointer;">
+                    <i class="fa fa-map-marker fa-5x"></i>
+                    <h5 class="card-title">Area</h5>
+                </div>
+
+            </div>
+
+            <div class="col-md-3">
+                <div class="indexicon2 card card-body" onclick="location.href='../Product/ProductIndex';" style="cursor: pointer;">
+                    <i class="fa fa-product-hunt fa-5x"></i>
+                    <h5 class="card-title">Product</h5>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="card card-body" onclick="location.href='../BankingEmployeeMaster/BankList';" style="cursor: pointer;">
+                    <i class="fa fa-bank fa-5x"></i>
+                    <h5 class="card-title">Bank</h5>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="card card-body" onclick="location.href='../BankingEmployeeMaster/EmployeeReviewList';" style="cursor: pointer;">
+                    <i class="fa fa-comment fa-5x"></i>
+                    <h5 class="card-title">Employee Review</h5>
+                </div>
+            </div>
+
+        </div>
+
+        <br />
+
+        <div class="row" style="text-align:center;">
+            <div class="col-md-3">
+                <div class="card card-body" onclick="location.href='../BankingEmployeeMaster/NoteList';" style="cursor: pointer;">
+
+                    <i class="fa fa-sticky-note fa-5x"></i>
+                    <h5 class="card-title">Notes</h5>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="card card-body" onclick="location.href='../Holiday/List';" style="cursor: pointer;">
+
+                    <i class="fa fa-couch fa-5x"></i>
+                    <h5 class="card-title">Holidays</h5>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card card-body" onclick="location.href='../BankingEmployeeMaster/DepartmentList';" style="cursor: pointer;">
+
+                    <i class="fa fa-building fa-5x"></i>
+                    <h5 class="card-title">Department</h5>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card card-body" onclick="location.href='../BankingEmployeeMaster/PerksList';" style="cursor: pointer;">
+
+                    <i class="fa fa-money-check-alt fa-5x"></i>
+                    <h5 class="card-title">Perks</h5>
+                </div>
+            </div>
+        </div>
+        <hr />
+    }
+    else if (User.IsInRole("employee"))
+    {
+        <hr />
+        <div class="row" style="text-align:center;">
+            <div class="col-md-3">
+                <div class="indexicon2 card card-body" onclick="location.href='../Customer/ComplainList';" style="cursor: pointer;">
+                    <i class="fa fa-list-alt fa-5x"></i>
+                    <h5 class="card-title">Check Complain</h5>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="indexicon2 card card-body" onclick="location.href='../Employee/Email';" style="cursor: pointer;">
+                    <i class="fa fa-envelope fa-5x"></i>
+                    <h5 class="card-title">Email</h5>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="indexicon2 card card-body" onclick="location.href='../Customer/ContactUsList';" style="cursor: pointer;">
+                    <i class="fa fa-address-book-o fa-5x"></i>
+                    <h5 class="card-title">Inquires</h5>
+                </div>
+            </div>
+            @*<div class="col-md-3">
+                <div class="indexicon2 card card-body" onclick="location.href='../Customer/FeedbackList';" style="cursor: pointer;">
+                    <i class="fa fa-comments fa-5x"></i>
+                    <h5 class="card-title">Feedbacks</h5>
+                </div>
+            </div>*@
+        </div>
+
+    }
+    else if (User.IsInRole("customer"))
+    {
+        <hr />
+        <div class="row" style="text-align:center;">
+            <div class="col-md-3">
+                <div class="indexicon2 card card-body" onclick="location.href='../Customer/CustomerSupport';" style="cursor: pointer;">
+                    <i class="fa fa-phone fa-5x" aria-hidden="true"></i>
+                    <h5 class="card-title">Contact Us</h5>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="indexicon2 card card-body" onclick="location.href='../Customer/Feedback';" style="cursor: pointer;">
+                    <i class="fa fa-comments fa-5x"></i>
+                    <h5 class="card-title">FeedBack</h5>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="indexicon2 card card-body" onclick="location.href='../Customer/Complain';" style="cursor: pointer;">
+                    <i class="fa fa-book fa-5x"></i>
+                    <h5 class="card-title">Register Complain</h5>
+                </div>
+            </div>
+        </div>
+
+    }
+}
+else
+{
+    <center>
+        <h1>Welcome To VIPL_CRM</h1>
+    </center>
+
+}
+

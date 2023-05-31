@@ -1,0 +1,163 @@
+﻿
+@using System.Data
+@using RX108_Data
+@model regionchild
+@{
+    ViewData["Title"] = "RegionChild";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="@ViewBag.Class">
+    @ViewBag.Msg
+</div>
+<style>
+    .error {
+        color: red;
+    }
+</style>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+        <a class="navbar-brand" href="#">Add New RegionChild</a>
+    </div>
+    <form class="form-inline my-2 my-lg-0 float-right">
+        <a href="../Master/RegionChildList" class="btn btn-outline-info pull-right">
+            <i class="fa fa-list"></i> Back To List
+        </a>
+    </form>
+</nav>
+<br />
+@using (Html.BeginForm("RegionChild", "Master", FormMethod.Post, new { @class = "form-horizontal" }))
+{
+    <div class="container">
+        <div class="form-group">
+            @Html.HiddenFor(m => m.SrNo)
+            <label class="control-label col-sm-3 ">Select Region Name  </label>
+            <div class="col-sm-3">
+                @{
+                    List<region> lst = new List<region>();
+                    int total = 0, i = 1;
+                    lst = region.GetAll("", 11, i, 5, ref total);
+                    if (total > 5)
+                    {
+                        double pg = (double)total / 5;
+                        int x = Convert.ToInt32(pg.ToString().Substring(pg.ToString().IndexOf('.') + 1));
+                        if (x > 0)
+                        {
+                            x = x + 1;
+                        }
+                        if (x > 1)
+                        {
+                            while (x > 1)
+                            {
+                                i++;
+                                lst.AddRange(region.GetAll("", 11, i, 5, ref total));
+                                x--;
+                            }
+                        }
+                    }
+                    @Html.DropDownListFor(m => m.Mst_Region_SrNo, new SelectList(lst, "SrNo", "RegionName", ""), new { @class = "form-control" })
+                }
+            </div>
+
+        </div>
+        <div class="form-group">
+
+            <label class="control-label col-sm-3 ">Select State Name  </label>
+            <div class="col-sm-3">
+                @{
+                    List<state> statelst = new List<state>();
+                    int totalstate = 0, ist = 1;
+                    statelst = state.GetAll("", 11, ist, 5, ref totalstate);
+                    if (totalstate > 5)
+                    {
+                        double pg = (double)totalstate / 5;
+                        int x = Convert.ToInt32(pg.ToString().Substring(pg.ToString().IndexOf('.') + 1));
+                        if (x > 0)
+                        {
+                            x = x + 1;
+                        }
+                        if (x > 1)
+                        {
+                            while (x > 1)
+                            {
+                                ist++;
+                                statelst.AddRange(state.GetAll("", 11, ist, 5, ref totalstate));
+                                x--;
+                            }
+                        }
+                    }
+                    @Html.DropDownListFor(m => m.Mst_State_SrNo, new SelectList(statelst, "SrNo", "StateName", ""), new { @class = "form-control" })
+                }
+            </div>
+
+        </div>
+        <div class="form-group">
+            <label class="control-label col-sm-3 ">Select District Name  </label>
+            <div class="col-sm-3">
+                @{
+                    List<district> distlst = new List<district>();
+                    int totaldist = 0, id = 1;
+                    distlst = district.GetAll("", 11, id, 5, ref totaldist);
+                    if (total > 5)
+                    {
+                        double pg = (double)totaldist / 5;
+                        int x = Convert.ToInt32(pg.ToString().Substring(pg.ToString().IndexOf('.') + 1));
+                        if (x > 0)
+                        {
+                            x = x + 1;
+                        }
+                        if (x > 1)
+                        {
+                            while (x > 1)
+                            {
+                                id++;
+                                distlst.AddRange(district.GetAll("", 11, id, 5, ref totaldist));
+                                x--;
+                            }
+                        }
+                    }
+                    @Html.DropDownListFor(m => m.Mst_District_SrNo, new SelectList(distlst, "SrNo", "DistrictName", ""), new { @class = "form-control" })
+                }
+            </div>
+        </div>
+        <div class="form-group">
+
+            <label class="control-label col-sm-3 ">Select Area Name  </label>
+            <div class="col-sm-3">
+                @{
+                    List<area> arealst = new List<area>();
+                    int totalarea = 0, ia = 1;
+                    arealst = area.GetAll("", 11, ia, 5, ref totalarea);
+                    if (totalarea > 5)
+                    {
+                        double pg = (double)totalarea / 5;
+                        int x = Convert.ToInt32(pg.ToString().Substring(pg.ToString().IndexOf('.') + 1));
+                        if (x > 0)
+                        {
+                            x = x + 1;
+                        }
+                        if (x > 1)
+                        {
+                            while (x > 1)
+                            {
+                                ia++;
+                                arealst.AddRange(area.GetAll("", 11, ia, 5, ref totalarea));
+                                x--;
+                            }
+                        }
+                    }
+                    @Html.DropDownListFor(m => m.Mst_Area_SrNo, new SelectList(arealst, "SrNo", "AreaName", ""), new { @class = "form-control" })
+                }
+            </div>
+
+        </div>
+
+        <div class="form-group col-sm-2">
+            <input type="submit" name="submit" value="Save" id="Save" class="btn btn-success" />
+        </div>
+    </div>
+    <br />
+}
+<script src="~/lib/jquery/dist/jquery.js"></script>
+<script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>

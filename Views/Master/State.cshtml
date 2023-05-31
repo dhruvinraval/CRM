@@ -1,0 +1,76 @@
+﻿@using System.Data
+@using RX108_Data
+@model state
+@{
+    ViewData["Title"] = "State";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .error {
+        color: red;
+    }
+</style>
+
+<div class="@ViewBag.Class">
+    @ViewBag.Msg
+</div>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+        <a class="navbar-brand" href="#">Add New State</a>
+    </div>
+    <form class="form-inline my-2 my-lg-0 float-right">
+        <a href="../Master/StateList" class="btn btn-outline-info pull-right">
+            <i class="fa fa-list"></i> Back To List</a>
+    </form>
+</nav>
+<br />
+@using (Html.BeginForm("State", "Master", FormMethod.Post, new { @class = "form-horizontal" }))
+{
+    <div class="container">
+        <div class="form-group">
+            @Html.HiddenFor(m => m.SrNo)
+            <label class="control-label col-sm-3 ">Select Country Name  </label>
+            <div class="col-sm-3">
+                @{
+                    List<country> lst = new List<country>();
+                    int total = 0, i = 1;
+                    lst = country.GetAll("", 11, i, 5, ref total);
+                    if (total > 5)
+                    {
+                        double pg = (double)total / 5;
+                        int x = Convert.ToInt32(pg.ToString().Substring(pg.ToString().IndexOf('.') + 1));
+                        if (x > 0)
+                        {
+                            x = x + 1;
+                        }
+                        if (x > 1)
+                        {
+                            while (x > 1)
+                            {
+                                i++;
+                                lst.AddRange(country.GetAll("", 11, i, 5, ref total));
+                                x--;
+                            }
+                        }
+                    }
+                    @Html.DropDownListFor(m => m.Mst_Country_SrNo, new SelectList(lst, "SrNo", "CountryName", ""), new { @class = "form-control" })
+                }
+            </div>
+
+        </div>
+        <div class="form-group">
+            <label class="control-label col-sm-3 ">Enter State Name  </label>
+
+            <div class="form-group col-sm-3">
+                @Html.TextBoxFor(m => m.StateName, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.StateName, "", new { @class = "error" })
+            </div>
+        </div>
+        <div class="form-group col-sm-2">
+            <input type="submit" name="submit" value="Save" id="Save" class="btn btn-success" />
+        </div>
+    </div>
+}
+<script src="~/lib/jquery/dist/jquery.js"></script>
+<script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>

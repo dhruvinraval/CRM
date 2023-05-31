@@ -1,0 +1,74 @@
+﻿@using RX108_Data
+@model ContactUs
+@{
+    ViewData["Title"] = "CustomerSupport";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Send Inquiry to Us</h1>
+<hr />
+<div class="@ViewBag.Class">
+    @ViewBag.Msg
+</div>
+<style>
+
+    .error {
+        color: red;
+    }
+</style>
+@using (Html.BeginForm("CustomerSupport", "Customer", FormMethod.Post, htmlAttributes: new { @enctype = "multipart/form-data" }))
+{
+    <div class="container">
+
+
+        <div class="form-group">
+            @Html.HiddenFor(m => m.SrNo)
+            <label class="control-label col-sm-3 ">Enter Name  </label>
+            <div class="col-sm-3">
+                @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.Name, "", new { @class = "error" })
+            </div>
+
+        </div>
+
+        <div class="form-group">
+
+            <label class="control-label col-sm-3 ">Enter Contact No  </label>
+            <div class="col-sm-3">
+                @Html.TextBoxFor(m => m.ContactNo, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.ContactNo, "", new { @class = "error" })
+            </div>
+
+        </div>
+        <div class="form-group">
+
+            <label class="control-label col-sm-3 ">Enter Your Email  </label>
+            <div class="col-sm-3">
+                @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.Email, "", new { @class = "error" })
+            </div>
+
+        </div>
+        <div class="form-group">
+
+            <label class="control-label col-sm-3 ">Subject  </label>
+            <div class="col-sm-3">
+                @Html.TextBoxFor(m => m.Subject, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.Subject, "", new { @class = "error" })
+            </div>
+
+        </div>
+        <div class="form-group">
+
+            <label class="control-label col-sm-3 ">Remarks  </label>
+            <div class="col-sm-3">
+                @Html.TextBoxFor(m => m.Remarks, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.Remarks, "", new { @class = "error" })
+            </div>
+
+        </div>
+        <div class="form-group col-sm-2">
+            <input type="submit" name="submit" value="Send" id="Save" class="btn btn-success" />
+        </div>
+    </div>
+}

@@ -1,0 +1,83 @@
+﻿@using RX108_Data
+@model mst_pvchanges
+@{
+    ViewData["Title"] = "PVChanges";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link href="~/css/jquery-ui.css" rel="stylesheet" />
+<div class="@ViewBag.Class">
+    @ViewBag.Msg
+</div>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+        <a class="navbar-brand" href="#">Create Product Version Change</a>
+    </div>
+    <form class="form-inline my-2 my-lg-0 float-right">
+        <a href="../Product/PVChangesIndex" class="btn btn-outline-info pull-right">
+            <i class="fa fa-list-alt"></i> &nbsp;
+            Back To List
+        </a>
+    </form>
+</nav>
+<br />
+@{
+    List<iv_LinkName> iv_list = new List<iv_LinkName>();
+    int total = 0;
+    iv_list = iv_LinkName.GetAll(1, 1000, 11, ref total, "");
+
+    @using (Html.BeginForm("PVChangesAdd", "Product", FormMethod.Post, new { @class = "form-horizontal" }))
+    {
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label">Product Version*</label>
+                        @Html.HiddenFor(m => m.SrNo)
+                        @{
+                            List<mst_productversion> lst = new List<mst_productversion>();
+                            lst = mst_productversion.GetAll(1, 1000, 11, ref total, "");
+                            @Html.DropDownListFor(m => m.Mst_ProductVerSrNo, new SelectList(lst, "SrNo", "VersionName", ""), new { @class = "form-control" })
+                        }
+                        @Html.ValidationMessageFor(m => m.Mst_ProductVerSrNo, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Product Module*</label>
+                        @{
+                            List<mst_product_module> lst1 = new List<mst_product_module>();
+                            lst1 = mst_product_module.GetAll(1, 1000, 11, ref total, "");
+                            @Html.DropDownListFor(m => m.Mst_Product_Module_SrNo, new SelectList(lst1, "SrNo", "ModuleName", ""), new { @class = "form-control" })
+                        }
+                        @Html.ValidationMessageFor(m => m.Mst_Product_Module_SrNo, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Changes*</label>
+
+                        @Html.TextBoxFor(m => m.WhatChanges, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.WhatChanges, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Video</label>
+                        @Html.DropDownListFor(m => m.VideoLink, new SelectList(iv_list, "SrNo", "BriefName"), new { @class = "form-control" })
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Remark:</label>
+                        @Html.TextBoxFor(m => m.Remark, new { @class = "form-control" })
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" name="submit" value="Save" class="btn btn-success btn-block" />
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    
+                </div>
+
+            </div>
+        </div>
+
+    }
+}
+
+<script src="~/lib/jquery/dist/jquery-ui.js"></script>
+<script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>

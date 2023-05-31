@@ -1,0 +1,47 @@
+﻿@using RX108_Data
+@model email
+@{
+    ViewData["Title"] = "Email";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="@ViewBag.Class">
+    @ViewBag.Msg
+</div>
+<h1>Send Email</h1>
+<hr />
+@using (Html.BeginForm("Email", "Employee", FormMethod.Post, htmlAttributes: new { @enctype = "multipart/form-data" }))
+{
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                
+                <label for="email" class="control-label">To</label>
+                <input type="text" class="form-control" id="to" name="to">&nbsp;
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <label for="inputState">Subject</label>
+                <input type="text" class="form-control" id="subject" name="subject" />&nbsp;
+            </div>&nbsp;
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <label for="inputZip">Message </label>
+                <textarea class="form-control" multiple id="message" name="message" rows="8" cols="15" style="resize:none;"></textarea>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <label for="inputZip">Attachment</label>
+                <input type="file" class="form-control" id="file" name="file" />
+            </div>
+        </div>
+        <div class=" col-md-2">
+            <br />
+            <button type="submit" id="send" name="send" class="btn btn-success">Send</button>
+        </div>
+    </div>
+}
+

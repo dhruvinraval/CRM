@@ -1,0 +1,251 @@
+﻿@using RX108_Data
+@model PagingList<EmpDeptReview>
+
+@{
+    ViewData["Title"] = "Employee Department Review List";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    int? currentSort = ViewBag.CurrentSort == null ? 11 : ViewBag.CurrentSort;
+    if (currentSort == null)
+    {
+        currentSort = 11;
+    }
+
+}
+
+<link href="~/lib/Fontawesome/css/all.css" rel="stylesheet" />
+
+<div class="@TempData["Class"]">
+    @TempData["Msg"]
+</div>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+        <a class="navbar-brand" href="#">Employee Department Review List</a>
+    </div>
+    <div class="form-inline my-2 my-lg-0 float-right">
+        <a href="../BankingEmployeeMaster/EmpDeptReviewIndex" class="btn btn-outline-info pull-right">
+            <i class="fa fa-plus"></i>
+            Add New
+        </a>
+    </div>
+</nav>
+<br />
+
+<script src="~/lib/jquery/dist/jquery.js"></script>
+
+<div class="form-inline my-2 my-lg-0 float-right">
+
+    @if (TempData["MSG"] != null)
+    {
+        <div class="@TempData["Class"] fade in">
+            <button class="close" data-dismiss="alert">
+                ×
+            </button>
+            @{ if (@TempData["Class"].ToString() == "alert alert-success")
+                {
+                    <i class="fa-fw fa fa-check"></i>
+                    <strong>Success</strong>
+                }
+                else
+                {
+                    <i class="fa-fw fa fa-times"></i>
+                    <strong>Error!</strong>
+                }
+            }
+            @TempData["MSG"]
+        </div>
+    }
+    @using (Html.BeginForm("EmpDeptReviewList", "BankingEmployeeMaster", FormMethod.Get))
+    {
+        @Html.TextBox("SearchString", ViewBag.CurrentFilter as string, new { @class = "form-control search-text", @placeholder = "Search.." })
+        <input class="btn btn-info" type="submit" value="Search" />
+    }
+</div>
+
+<br />
+<br /><p></p>
+
+<div class="table-responsive">
+    <table class="table table-bordered">
+
+        <tr>
+            <th>#</th>
+            @*<th>SrNo</th>*@
+            <th>
+                @{
+                    if (currentSort == 21)
+                    {
+                        @Html.ActionLink("Display Order", "EmpDeptReviewList", new
+                        {
+                            sortField = "22",
+                            currentSortField = ViewBag.SortField,
+                            currentSortOrder = ViewBag.SortOrder,
+                            currentFilter = ViewBag.CurrentFilter
+                        })
+                    }
+                    else
+                    {
+                        @Html.ActionLink("Display Order", "EmpDeptReviewList", new
+                        {
+                            sortField = "21",
+                            currentSortField = ViewBag.SortField,
+                            currentSortOrder = ViewBag.SortOrder,
+                             currentFilter = ViewBag.CurrentFilter
+                        })
+                    }
+                    if (currentSort == 21)
+                    {
+                        <i class="fa fa-sort-down"></i>
+                    }
+                    else if (currentSort == 22)
+                    {
+                        <i class="fa fa-sort-up"></i>}
+                    else
+                    {
+                        <i class="fa fa-sort"></i>
+                    }
+                }
+            </th>
+            <th>
+                @{
+                    if (currentSort == 31)
+                    {
+                        @Html.ActionLink("Department", "EmpDeptReviewList", new
+                        {
+                            sortField = "32",
+                            currentSortField = ViewBag.SortField,
+                            currentSortOrder = ViewBag.SortOrder,
+                            currentFilter = ViewBag.CurrentFilter
+                        })
+                    }
+                    else
+                    {
+                        @Html.ActionLink("Department", "EmpDeptReviewList", new
+                        {
+                            sortField = "31",
+                            currentSortField = ViewBag.SortField,
+                            currentSortOrder = ViewBag.SortOrder,
+                             currentFilter = ViewBag.CurrentFilter
+                        })
+                    }
+                    if (currentSort == 31)
+                    {
+                        <i class="fa fa-sort-down"></i>}
+                    else if (currentSort == 32)
+                    {
+                        <i class="fa fa-sort-up"></i>}
+                    else
+                    {
+                        <i class="fa fa-sort"></i>
+                    }
+                }
+            </th>
+            <th>
+                @{
+                    if (currentSort == 41)
+                    {
+                        @Html.ActionLink("Review Name", "EmpDeptReviewList", new
+                        {
+                            sortField = "42",
+                            currentSortField = ViewBag.SortField,
+                            currentSortOrder = ViewBag.SortOrder,
+                            currentFilter = ViewBag.CurrentFilter
+                        })
+                    }
+                    else
+                    {
+                        @Html.ActionLink("Review Name", "EmpDeptReviewList", new
+                        {
+                            sortField = "41",
+                            currentSortField = ViewBag.SortField,
+                            currentSortOrder = ViewBag.SortOrder,
+                             currentFilter = ViewBag.CurrentFilter
+                        })
+                    }
+                    if (currentSort == 41)
+                    {
+                        <i class="fa fa-sort-down"></i>}
+                    else if (currentSort == 42)
+                    {
+                        <i class="fa fa-sort-up"></i>}
+                    else
+                    {
+                        <i class="fa fa-sort"></i>
+                    }
+                }
+            </th>
+            <th>Actions</th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DisID)
+                </td>
+
+                @*<td>@Html.DisplayFor(modelItem => item.SrNo)</td>*@
+
+                <td>@Html.DisplayFor(modelItem => item.DisplayOrder)</td>
+
+                @{
+                    Department_M department_m = new Department_M();
+                    department_m = Department_M.GetById(item.Mst_Dept_SrNo);
+                    <td>@department_m.Department</td>
+                }
+
+                @{
+                    EmployeeReview employeereview = new EmployeeReview();
+                    employeereview = EmployeeReview.GetById(item.Mst_EmployeeReview_SrNo);
+                    <td>@employeereview.ReviewName</td>
+                }
+
+                <td>
+                    <a class="btn btn-primary" href="../BankingEmployeeMaster/EmpDeptReviewIndex?SrNo=@item.SrNo">
+                        <i class="fa fa-pencil-square-o"></i>
+                    </a>
+                    <a onclick="return confirm('Are you sure want to delete this record?');" class="btn btn-danger" href="../BankingEmployeeMaster/EmpDeptReviewDelete?SrNo=@item.SrNo">
+
+                        <i class="fa fa-trash-o"></i>
+                    </a>
+                </td>
+
+            </tr>
+        }
+    </table>
+
+    @{
+        var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+        var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+        var totalPageNo = Model.TotalPageNo;
+        var currentPageNo = Model.PageIndex;
+    }
+    <div class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="navbar-collapse" id="navbarTogglerDemo01">
+            Total Records: <b>@Model.TotalRecords</b> | |
+            <span>
+                Page No :<b>@currentPageNo</b> of <b>@totalPageNo</b>
+            </span>
+        </div>
+        <div>
+            <a asp-action="EmpDeptReviewList"
+               asp-route-sortOrder="@ViewData["CurrentSort"]"
+               asp-route-pageNo="@(Model.PageIndex - 1)"
+               asp-route-currentFilter="@ViewData["CurrentFilter"]"
+               class="btn btn-default @prevDisabled">
+                Previous
+            </a>
+            <a asp-action="EmpDeptReviewList"
+               asp-route-sortOrder="@ViewData["CurrentSort"]"
+               asp-route-pageNo="@(Model.PageIndex + 1)"
+               asp-route-currentFilter="@ViewData["CurrentFilter"]"
+               class="btn btn-default @nextDisabled">
+                Next
+            </a>
+        </div>
+    </div>
+    <div style="text-align:right;padding:0;">
+
+    </div>
+
+</div>

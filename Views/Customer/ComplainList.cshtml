@@ -1,0 +1,134 @@
+﻿
+@{
+    ViewData["Title"] = "ComplainList";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@using RX108_Data
+@model PagingList<complain>
+@{
+    ViewData["Title"] = "Complain List";
+    int? currentSort = ViewBag.CurrentSort == null ? 11 : ViewBag.CurrentSort;
+    if (currentSort == null)
+    {
+        currentSort = 11;
+    }
+
+}
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+        <a class="navbar-brand" href="#">Complain List</a>
+    </div>
+    
+</nav>
+<br />
+<form class="form-inline my-2 my-lg-0 float-right">
+
+    @*@if (TempData["MSG"] != null)
+        {
+            <div class="@TempData["Class"] fade in">
+                <button class="close" data-dismiss="alert">
+                    ×
+                </button>
+                @{ if (@TempData["Class"].ToString() == "alert alert-success")
+                    {
+                        <i class="fa-fw fa fa-check"></i>
+                        <strong>Success</strong>
+                    }
+                    else
+                    {
+                        <i class="fa-fw fa fa-times"></i>
+                        <strong>Error!</strong>
+                    }
+                }
+                @TempData["MSG"]
+            </div>
+        }*@
+    @using (Html.BeginForm("ComplainList", "Customer", FormMethod.Get))
+    {
+        @Html.TextBox("SearchString", ViewBag.CurrentFilter as string, new { @class = "form-control search-text", @placeholder = "Search by Name" })
+        <input class="btn btn-info" type="submit" value="Search" />
+    }
+</form>
+<br /><p></p>
+<div class="table-responsive">
+    <table class="table table-bordered " id="headtable">
+        <tr>
+            <th>#</th>
+
+            <th>
+                Name
+            </th>
+            <th>
+                Place
+            </th>
+            <th>
+                Contact
+            </th>
+            <th>
+                Software Name
+            </th>
+            <th>
+                Problem With Software
+            </th>
+            
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+
+                <td>@Html.DisplayFor(modelItem => item.DisID)</td>
+
+                <td>@Html.DisplayFor(modelItem => item.Name)</td>
+                <td>@Html.DisplayFor(modelItem => item.Place)</td>
+                <td>@Html.DisplayFor(modelItem => item.ContactNo)</td>
+                <td>@Html.DisplayFor(modelItem => item.SoftwareName)</td>
+                <td>@Html.DisplayFor(modelItem => item.Problem)</td>
+                
+
+
+                
+            </tr>
+
+        }
+
+    </table>
+    @{
+        var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+        var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+        var totalPageNo = Model.TotalPageNo;
+        var currentPageNo = Model.PageIndex;
+    }
+    <div class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="navbar-collapse">
+            Total Records: <b>@Model.TotalRecords</b> |
+            <span>
+                Page No :<b>@currentPageNo</b> of <b>@totalPageNo</b>
+            </span>
+
+        </div>
+        <div>
+            <a asp-action="ComplainList"
+               asp-route-sortOrder="@ViewData["CurrentSort"]"
+               asp-route-pageNo="@(Model.PageIndex - 1)"
+               asp-route-currentFilter="@ViewData["CurrentFilter"]"
+               class="btn btn-default @prevDisabled">
+                Previous
+            </a>
+            <a asp-action="ComplainList"
+               asp-route-sortOrder="@ViewData["CurrentSort"]"
+               asp-route-pageNo="@(Model.PageIndex + 1)"
+               asp-route-currentFilter="@ViewData["CurrentFilter"]"
+               class="btn btn-default @nextDisabled">
+                Next
+            </a>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+

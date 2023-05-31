@@ -1,0 +1,60 @@
+﻿
+@using System.Data
+@using RX108_Data
+@model region
+@{
+    ViewData["Title"] = "Region";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="@ViewBag.Class">
+    @ViewBag.Msg
+</div>
+<style>
+    .error {
+        color: red;
+    }
+</style>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+        <a class="navbar-brand" href="#">Add New Region</a>
+    </div>
+    <form class="form-inline my-2 my-lg-0 float-right">
+        <a href="../Master/RegionList" class="btn btn-outline-info pull-right">
+            <i class="fa fa-list"></i> Back To List
+        </a>
+    </form>
+</nav>
+<br />
+@using (Html.BeginForm("Region", "Master", FormMethod.Post, new { @class = "form-horizontal" }))
+{
+    <div class="container">
+        <div class="form-group">
+            @Html.HiddenFor(m => m.SrNo)
+
+            <label class="control-label col-sm-3 ">Enter Region Name  </label>
+
+            <div class="form-group col-sm-3">
+                @Html.TextBoxFor(m => m.RegionName, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.RegionName, "", new { @class = "error" })
+            </div>
+
+        </div>
+        <div class="form-group">
+            <label class="control-label col-sm-3 ">Enter Remark  </label>
+
+            <div class="form-group col-sm-3">
+                @Html.TextBoxFor(m => m.Remark, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.Remark, "", new { @class = "error" })
+            </div>
+        </div>
+
+        <div class="form-group col-sm-2">
+            <input type="submit" name="submit" value="Save" id="Save" class="btn btn-success" />
+        </div>
+    </div>
+    <br />
+}
+<script src="~/lib/jquery/dist/jquery.js"></script>
+<script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>

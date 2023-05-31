@@ -1,0 +1,280 @@
+﻿@using RX108_Data
+@model PagingList<regionchild>
+@{
+    ViewData["Title"] = "Region Child List";
+    int? currentSort = ViewBag.CurrentSort == null ? 11 : ViewBag.CurrentSort;
+    if (currentSort == null)
+    {
+        currentSort = 11;
+    }
+
+}
+<div class="@TempData["Class"]">
+    @TempData["Msg"]
+</div>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+        <a class="navbar-brand" href="#">Region Child List</a>
+    </div>
+    <form class="form-inline my-2 my-lg-0 float-right">
+        <a href="../Master/RegionChild" class="btn btn-outline-info pull-right">
+            <i class="fa fa-plus"></i> Add New
+        </a>
+    </form>
+</nav>
+<br />
+<form class="form-inline my-2 my-lg-0 float-right">
+
+    @*@if (TempData["MSG"] != null)
+        {
+            <div class="@TempData["Class"] fade in">
+                <button class="close" data-dismiss="alert">
+                    ×
+                </button>
+                @{ if (@TempData["Class"].ToString() == "alert alert-success")
+                    {
+                        <i class="fa-fw fa fa-check"></i>
+                        <strong>Success</strong>
+                    }
+                    else
+                    {
+                        <i class="fa-fw fa fa-times"></i>
+                        <strong>Error!</strong>
+                    }
+                }
+                @TempData["MSG"]
+            </div>
+        }*@
+    @using (Html.BeginForm("RegionChildList", "Master", FormMethod.Get))
+    {
+        @Html.TextBox("SearchString", ViewBag.CurrentFilter as string, new { @class = "form-control search-text", @placeholder = "Search.." })
+        <input class="btn btn-info" type="submit" value="Search" />
+    }
+</form>
+<br /><p></p>
+<div class="table-responsive">
+    <table class="table table-bordered " id="headtable">
+        <tr>
+            <th>#</th>
+
+            <th>
+                @{
+                    if (currentSort == 21)
+                    {
+                        @Html.ActionLink("Region Name", "RegionChildList", new
+                   {
+                       sortField = "22",
+                       currentSortField = ViewBag.SortField,
+                       currentSortOrder = ViewBag.SortOrder,
+                       currentFilter = ViewBag.CurrentFilter
+                   })
+                    }
+                    else
+                    {
+                        @Html.ActionLink("Region Name", "RegionChildList", new
+                        {
+                            sortField = "21",
+               currentSortField = ViewBag.SortField,
+               currentSortOrder = ViewBag.SortOrder,
+               currentFilter = ViewBag.CurrentFilter
+                        })
+                    }
+                    if (currentSort == 21)
+                    {
+                        <i class="fa fa-sort-asc pull-right"></i>}
+                    else if (currentSort == 22)
+                    {
+                        <i class="fa fa-sort-desc pull-right"></i>}
+                    else
+                    {
+                        <i class="fa fa-sort pull-right"></i>
+                    }
+
+                }
+            </th>
+            <th>
+                @{
+                    if (currentSort == 11)
+                    {
+                        @Html.ActionLink("State Name", "RegionChildList", new
+                   {
+                       sortField = "12",
+                       currentSortField = ViewBag.SortField,
+                       currentSortOrder = ViewBag.SortOrder,
+                       currentFilter = ViewBag.CurrentFilter
+                   })
+                    }
+                    else
+                    {
+                        @Html.ActionLink("State Name", "RegionChildList", new
+                        {
+                            sortField = "11",
+               currentSortField = ViewBag.SortField,
+               currentSortOrder = ViewBag.SortOrder,
+               currentFilter = ViewBag.CurrentFilter
+                        })
+                    }
+                    if (currentSort == 11)
+                    {
+                        <i class="fa fa-sort-asc pull-right"></i>}
+                    else if (currentSort == 12)
+                    {
+                        <i class="fa fa-sort-desc pull-right"></i>}
+                    else
+                    {
+                        <i class="fa fa-sort pull-right"></i>
+                    }
+
+                }
+            </th>
+            <th>
+                @{
+                    if (currentSort == 31)
+                    {
+                        @Html.ActionLink("District Name", "RegionChildList", new
+                   {
+                       sortField = "32",
+                       currentSortField = ViewBag.SortField,
+                       currentSortOrder = ViewBag.SortOrder,
+                       currentFilter = ViewBag.CurrentFilter
+                   })
+                    }
+                    else
+                    {
+                        @Html.ActionLink("District Name", "RegionChildList", new
+                        {
+                            sortField = "31",
+               currentSortField = ViewBag.SortField,
+               currentSortOrder = ViewBag.SortOrder,
+               currentFilter = ViewBag.CurrentFilter
+                        })
+                    }
+                    if (currentSort == 31)
+                    {
+                        <i class="fa fa-sort-asc pull-right"></i>}
+                    else if (currentSort == 32)
+                    {
+                        <i class="fa fa-sort-desc pull-right"></i>}
+                    else
+                    {
+                        <i class="fa fa-sort pull-right"></i>
+                    }
+
+                }
+            </th>
+            <th>
+                @{
+                    if (currentSort == 41)
+                    {
+                        @Html.ActionLink("Area Name", "RegionChildList", new
+                   {
+                       sortField = "42",
+                       currentSortField = ViewBag.SortField,
+                       currentSortOrder = ViewBag.SortOrder,
+                       currentFilter = ViewBag.CurrentFilter
+                   })
+                    }
+                    else
+                    {
+                        @Html.ActionLink("Area Name", "RegionChildList", new
+                        {
+                            sortField = "41",
+               currentSortField = ViewBag.SortField,
+               currentSortOrder = ViewBag.SortOrder,
+               currentFilter = ViewBag.CurrentFilter
+                        })
+                    }
+                    if (currentSort == 41)
+                    {
+                        <i class="fa fa-sort-asc pull-right"></i>}
+                    else if (currentSort == 42)
+                    {
+                        <i class="fa fa-sort-desc pull-right"></i>}
+                    else
+                    {
+                        <i class="fa fa-sort pull-right"></i>
+                    }
+
+                }
+            </th>
+            <th>Actions</th>
+        </tr>
+        
+        @foreach (var item in Model)
+        {
+            <tr>
+                
+                <td>@Html.DisplayFor(modelItem => item.DisID)</td>
+                @{
+                    region region = new region();
+                    region = region.GetByID(item.Mst_Region_SrNo);
+                    <td>@region.RegionName</td>
+                }
+                @{
+                    state state = new state();
+                    state = state.GetByID(item.Mst_State_SrNo);
+                    <td>@state.StateName</td>
+                }
+                @{
+                    district district = new district();
+                    district = district.GetByID(item.Mst_District_SrNo);
+                    <td>@district.DistrictName</td>
+                }
+
+                @{
+                    area area = new area();
+                    area = area.GetByID(item.Mst_Area_SrNo);
+                    <td>@area.AreaName</td>
+                }
+
+
+
+                <td>
+                    <a class="btn btn-primary" href="../master/regionchild?srno=@item.SrNo">
+                        <i class="fa fa-pencil-square-o"></i>
+                    </a>
+                    <a onclick="return confirm('Are you sure want to delete this record?');" class="btn btn-danger" href="../Master/RegionChildDelete?srno=@item.SrNo">
+                        <i class="fa fa-trash-o"></i>
+                    </a>
+                </td>
+
+            </tr>
+
+        }
+
+    </table>
+    @{
+        var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+        var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+        var totalPageNo = Model.TotalPageNo;
+        var currentPageNo = Model.PageIndex;
+    }
+    <div class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="navbar-collapse">
+            Total Records: <b>@Model.TotalRecords</b> |
+            <span>
+                Page No :<b>@currentPageNo</b> of <b>@totalPageNo</b>
+            </span>
+
+        </div>
+        <div>
+            <a asp-action="RegionChildList"
+               asp-route-sortOrder="@ViewData["CurrentSort"]"
+               asp-route-pageNo="@(Model.PageIndex - 1)"
+               asp-route-currentFilter="@ViewData["CurrentFilter"]"
+               class="btn btn-default @prevDisabled">
+                Previous
+            </a>
+            <a asp-action="RegionChildList"
+               asp-route-sortOrder="@ViewData["CurrentSort"]"
+               asp-route-pageNo="@(Model.PageIndex + 1)"
+               asp-route-currentFilter="@ViewData["CurrentFilter"]"
+               class="btn btn-default @nextDisabled">
+                Next
+            </a>
+        </div>
+    </div>
+</div>
+
+
+

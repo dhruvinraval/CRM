@@ -1,0 +1,156 @@
+﻿@using RX108_Data
+@model PagingList<district>
+@{
+    ViewData["Title"] = "District List";
+    int? currentSort = ViewBag.CurrentSort == null ? 11 : ViewBag.CurrentSort;
+    if (currentSort == null)
+    {
+        currentSort = 11;
+    }
+
+}
+<div class="@TempData["Class"]">
+    @TempData["Msg"]
+</div>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+        <a class="navbar-brand" href="#">District List</a>
+    </div>
+    <form class="form-inline my-2 my-lg-0 float-right">
+        <a href="../Master/District" class="btn btn-outline-info pull-right">
+            <i class="fa fa-plus"></i>
+            Add New
+        </a>
+    </form>
+</nav>
+<br />
+<form class="form-inline my-2 my-lg-0 float-right">
+
+    @*@if (TempData["MSG"] != null)
+        {
+            <div class="@TempData["Class"] fade in">
+                <button class="close" data-dismiss="alert">
+                    ×
+                </button>
+                @{ if (@TempData["Class"].ToString() == "alert alert-success")
+                    {
+                        <i class="fa-fw fa fa-check"></i>
+                        <strong>Success</strong>
+                    }
+                    else
+                    {
+                        <i class="fa-fw fa fa-times"></i>
+                        <strong>Error!</strong>
+                    }
+                }
+                @TempData["MSG"]
+            </div>
+        }*@
+    @using (Html.BeginForm("DistrictList", "Master", FormMethod.Get))
+    {
+        @Html.TextBox("SearchString", ViewBag.CurrentFilter as string, new { @class = "form-control search-text", @placeholder = "Search.." })
+        <input class="btn btn-info" type="submit" value="Search" />
+    }
+</form>
+<br /><p></p>
+<div class="table-responsive">
+    <table class="table table-bordered " id="headtable">
+        <tr>
+            <th>#</th>
+
+            <th>
+                @{
+                    if (currentSort == 21)
+                    {
+                        @Html.ActionLink("District Name", "DistrictList", new
+                   {
+                       sortField = "22",
+                       currentSortField = ViewBag.SortField,
+                       currentSortOrder = ViewBag.SortOrder,
+                       currentFilter = ViewBag.CurrentFilter
+                   })
+                    }
+                    else
+                    {
+                        @Html.ActionLink("District Name", "DistrictList", new
+                        {
+                            sortField = "21",
+               currentSortField = ViewBag.SortField,
+               currentSortOrder = ViewBag.SortOrder,
+               currentFilter = ViewBag.CurrentFilter
+                        })
+                    }
+                    if (currentSort == 21)
+                    {
+                        <i class="fa fa-sort-asc pull-right"></i>}
+                    else if (currentSort == 22)
+                    {
+                        <i class="fa fa-sort-desc pull-right"></i>}
+                    else
+                    {
+                        <i class="fa fa-sort pull-right"></i>
+                    }
+
+                }
+            </th>
+            <th>State Name</th>
+            <th>Actions</th>
+        </tr>
+        
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => item.DisID)</td>
+                <td>@Html.DisplayFor(modelItem => item.DistrictName)</td>
+                @{
+                    state state = new state();
+                    state = state.GetByID(item.Mst_State_SrNo);
+                    <td>@state.StateName</td>
+                }
+                <td>
+                    <a class="btn btn-primary" href="../master/district?srno=@item.SrNo">
+                        <i class="fa fa-pencil-square-o"></i>
+                    </a>
+                    <a onclick="return confirm('Are you sure want to delete this record?');" class="btn btn-danger" href="../Master/DistrictDelete?srno=@item.SrNo">
+                        <i class="fa fa-trash-o"></i>
+                    </a>
+                </td>
+
+            </tr>
+
+        }
+
+    </table>
+    @{
+        var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+        var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+        var totalPageNo = Model.TotalPageNo;
+        var currentPageNo = Model.PageIndex;
+    }
+    <div class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="navbar-collapse">
+            Total Records: <b>@Model.TotalRecords</b> |
+            <span>
+                Page No :<b>@currentPageNo</b> of <b>@totalPageNo</b>
+            </span>
+
+        </div>
+        <div>
+            <a asp-action="DistrictList"
+               asp-route-sortOrder="@ViewData["CurrentSort"]"
+               asp-route-pageNo="@(Model.PageIndex - 1)"
+               asp-route-currentFilter="@ViewData["CurrentFilter"]"
+               class="btn btn-default @prevDisabled">
+                Previous
+            </a>
+            <a asp-action="DistrictList"
+               asp-route-sortOrder="@ViewData["CurrentSort"]"
+               asp-route-pageNo="@(Model.PageIndex + 1)"
+               asp-route-currentFilter="@ViewData["CurrentFilter"]"
+               class="btn btn-default @nextDisabled">
+                Next
+            </a>
+        </div>
+    </div>
+</div>
+

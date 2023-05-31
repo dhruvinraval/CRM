@@ -1,0 +1,51 @@
+﻿@using System.Data
+@using RX108_Data
+@model Relationship_M
+@{
+    ViewData["Title"] = "Relationship";
+}
+<div class="@ViewBag.Class">
+    @ViewBag.Msg
+</div>
+
+<style>
+
+    .error {
+        color: red;
+    }
+</style>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+        <a class="navbar-brand" href="#">Add New Relationship</a>
+    </div>
+    <div class="form-inline my-2 my-lg-0 float-right">
+        <a href="../BankingEmployeeMaster/RelationshipList" class="btn btn-outline-info pull-right">Back To List</a>
+    </div>
+</nav>
+<br />
+
+@using (Html.BeginForm("RelationshipIndex", "BankingEmployeeMaster", FormMethod.Post, new { @class = "form-horizontal" }))
+{
+    <div class="container">
+
+        <div class="form-group">
+            @Html.HiddenFor(m => m.SrNo)
+
+            <label class="control-label col-sm-3">Relationship:</label>
+            <div class="col-sm-3">
+                @Html.TextBoxFor(m => m.Relationship, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.Relationship, "", new { @class = "error" })
+            </div>
+        </div>
+        <div class="form-group col-sm-2">
+            <input type="submit" name="submit" value="Save" class="btn btn-success " />
+        </div>
+    </div>
+
+}
+
+<script src="~/lib/jquery/dist/jquery.js"></script>
+<script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+

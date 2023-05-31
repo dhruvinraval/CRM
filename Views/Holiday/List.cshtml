@@ -1,0 +1,229 @@
+﻿@using System.Data
+@using RX108_Data
+@model PagingList<Holidays>
+@{
+    ViewData["Title"] = "Holiday List";
+    int? currentSort = ViewBag.CurrentSort == null ? 11 : Convert.ToInt32(ViewBag.CurrentSort);
+    if (currentSort == null)
+    {
+        currentSort = 11;
+    }
+}
+
+@if (TempData["msg"] != null)
+{
+    <div class="@TempData["Class"]">
+        <button class="close" data-dismiss="alert">
+            ×
+        </button>
+        @{ if (@TempData["Class"].ToString() == "alert alert-success")
+            {
+                <i class="fa-fw fa fa-check"></i>
+                <strong>Success</strong>
+            }
+            else
+            {
+                <i class="fa-fw fa fa-times"></i>
+                <strong>Error!</strong>
+            }
+        }
+        @TempData["MSG"]
+    </div>
+}
+<br />
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+        <a class="navbar-brand" href="#">Holidays List</a>
+    </div>
+    <form class="form-inline my-2 my-lg-0 float-right">
+        <a href="../Holiday/Index" class="btn btn-outline-info pull-right">
+            <i class="fa fa-plus-square"></i> &nbsp;
+            Add New
+        </a>
+    </form>
+</nav>
+<br />
+<div class="form-inline my-2 my-lg-0 float-right">
+    @using (Html.BeginForm("List", "Holidays", FormMethod.Get))
+    {
+        @Html.TextBox("SearchString", ViewBag.CurrentFilter as string, new { @class = "form-control search-text", @placeholder = "Search.." })
+        <input class="btn btn-info" type="submit" value="Search" />
+    }
+</div>
+<br />
+<br />
+<div class="table-responsive">
+
+    <table class="table table-bordered table-hover">
+
+        <tr>
+            <th>#</th>
+            <th>
+                @{
+                    if (currentSort == 11)
+                    {
+                        @Html.ActionLink("ForYear", "List", new
+                   {
+                       sortField = "12",
+                       currentSortField = ViewBag.SortField,
+                       currentSortOrder = ViewBag.SortOrder,
+                       currentFilter = ViewBag.CurrentFilter
+                   })
+                    }
+                    else
+                    {
+                        @Html.ActionLink("ForYear", "List", new
+                   {
+                       sortField = "11",
+                       currentSortField = ViewBag.SortField,
+                       currentSortOrder = ViewBag.SortOrder,
+                       currentFilter = ViewBag.CurrentFilter
+                   })
+                    }
+                    if (currentSort == 11)
+                    {
+                        <i class="fa fa-sort-up pull-right" aria-hidden="true"></i>
+                    }
+                    else if (currentSort == 12)
+                    {
+                        <i class="fa fa-sort-down pull-right"></i>}
+                    else
+                    {
+                        <i class="fa fa-sort"></i>
+                    }
+
+                }
+            </th>
+            <th>
+                @{
+                    if (currentSort == 21)
+                    {
+                        @Html.ActionLink("HolidayName", "List", new
+                   {
+                       sortField = "22",
+                       currentSortField = ViewBag.SortField,
+                       currentSortOrder = ViewBag.SortOrder,
+                       currentFilter = ViewBag.CurrentFilter
+                   })
+                    }
+                    else
+                    {
+                        @Html.ActionLink("HolidayName", "List", new
+                   {
+                       sortField = "21",
+                       currentSortField = ViewBag.SortField,
+                       currentSortOrder = ViewBag.SortOrder,
+                       currentFilter = ViewBag.CurrentFilter
+                   })
+                    }
+                    if (currentSort == 21)
+                    {
+                        <i class="fa fa-sort-up pull-right" aria-hidden="true"></i>
+                    }
+                    else if (currentSort == 22)
+                    {
+                        <i class="fa fa-sort-down pull-right"></i>}
+                    else
+                    {
+                        <i class="fa fa-sort"></i>
+                    }
+
+                }
+            </th>
+            <th>Type</th>
+            <th>ForDate</th>
+            <th>PartialWorking</th>
+            <th>StartTime</th>
+            <th>OffTime</th>
+            <th>Remark</th>
+            <th>Actions</th>
+        </tr>
+        @{
+            int i = 1;
+            @foreach (var item in Model)
+            {
+                string str = item.ForDate.ToString("dd/MM/yyyy");
+                <tr>
+                    <td>@i</td>
+                    <td>@Html.DisplayFor(modelItem => item.ForYear)</td>
+                    <td>@Html.DisplayFor(modelItem => item.HolidayName)</td>
+                    @{
+                        string str1 = "";
+                        if (item.Type == "S")
+                        {
+                            str1 = "Selective";
+                        }
+                        else
+                        {
+                            str1 = "General";
+                        }
+
+                        <td>@str1</td>
+                    }
+                    <td>@str</td>
+                    @{
+                        str1 = "";
+                        if (item.PartialWorking == "F")
+                        {
+                            str1 = "No";
+                        }
+                        else
+                        {
+                            str1 = "Yes";
+                        }
+
+                        <td>@str1</td>
+                    }
+                    <td>@Html.DisplayFor(modelItem => item.StartTime)</td>
+                    <td>@Html.DisplayFor(modelItem => item.OffTime)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Remark)</td>
+                    <td>
+                        <a class="btn btn-primary" href="../Holiday/Index?srno=@item.SrNo">
+                            <i class="fa fa-edit"></i>
+                        </a>
+                        <a class="btn btn-danger" href="../Holiday/Delete?srno=@item.SrNo" onclick="return confirm('Are you sure want to delete this record?');">
+                            <i class="fa fa-trash-alt"></i>
+                        </a>
+                    </td>
+                </tr>
+                i = i + 1;
+            }
+        }
+    </table>
+
+</div>
+<br />
+
+@{
+    var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+    var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+    var totalPageNo = Model.TotalPageNo;
+    var currentPageNo = Model.PageIndex;
+}
+
+<div class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="navbar-collapse">
+        Total Records: <b>@Model.TotalRecords</b> |
+        <span>
+            Page No :<b>@currentPageNo</b> of <b>@totalPageNo</b>
+        </span>
+
+    </div>
+    <div>
+        <a asp-action="List"
+           asp-route-sortOrder="@ViewData["CurrentSort"]"
+           asp-route-pageNo="@(Model.PageIndex - 1)"
+           asp-route-currentFilter="@ViewData["CurrentFilter"]"
+           class="btn btn-default @prevDisabled">
+            Previous
+        </a>
+        <a asp-action="List"
+           asp-route-sortOrder="@ViewData["CurrentSort"]"
+           asp-route-pageNo="@(Model.PageIndex + 1)"
+           asp-route-currentFilter="@ViewData["CurrentFilter"]"
+           class="btn btn-default @nextDisabled">
+            Next
+        </a>
+    </div>
+</div>
+<script src="~/lib/jquery/dist/jquery.js"></script>

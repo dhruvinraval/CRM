@@ -1,0 +1,212 @@
+﻿@using RX108_Data
+@model iv_LinkName
+@{
+    ViewData["Title"] = "Image Video";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="~/css/jquery-ui.css" rel="stylesheet" />
+<div class="@ViewBag.Class">
+    @ViewBag.Msg
+</div>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+        <a class="navbar-brand" href="#">Create Image/Video Link</a>
+    </div>
+    <form class="form-inline my-2 my-lg-0 float-right">
+        <a href="../ImageVideo/Index" class="btn btn-outline-info pull-right">
+            <i class="fa fa-list-alt"></i> &nbsp;
+            Back To List
+        </a>
+    </form>
+</nav>
+<br />
+@using (Html.BeginForm("Add", "ImageVideo", FormMethod.Post, new { @class = "form-horizontal", @enctype = "multipart/form-data" }))
+{
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    @Html.HiddenFor(m => m.SrNo)
+                    <label>Image Or Video*</label>&nbsp;
+                    @if (Model != null)
+                    {
+
+                        @if (Model.ImgOrVideo == 'I')
+                        {
+                            <input type="radio" id="ImgOrVideo1" name="ImgOrVideo" value="I" checked /><label>Image</label>
+                            <input type="radio" id="ImgOrVideo2" name="ImgOrVideo" value="V" /><label>Video</label>
+                            @Html.ValidationMessageFor(m => m.ImgOrVideo, "", new { @class = "text-danger" })
+                        }
+                        else if (Model.ImgOrVideo == 'V')
+                        {
+                            <input type="radio" id="ImgOrVideo1" name="ImgOrVideo" value="I" /><label>Image</label>
+                            <input type="radio" id="ImgOrVideo2" name="ImgOrVideo" value="V" checked /><label>Video</label>
+                            @Html.ValidationMessageFor(m => m.ImgOrVideo, "", new { @class = "text-danger" })
+                        }
+                    }
+                    else
+                    {
+                        <input type="radio" id="ImgOrVideo1" name="ImgOrVideo" value="I" checked /><label>Image</label>
+                        <input type="radio" id="ImgOrVideo2" name="ImgOrVideo" value="V" /><label>Video</label>
+                        @Html.ValidationMessageFor(m => m.ImgOrVideo, "", new { @class = "text-danger" })
+                    }
+                    @Html.ValidationMessageFor(m => m.ImgOrVideo, "", new { @class = "text-danger" })
+
+                </div>
+                <div class="form-group">
+                    <label class="control-label">Brief Name:</label>
+
+                    @Html.TextBoxFor(m => m.BriefName, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.BriefName, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group">
+                    <label class="control-label">Image Video Path:</label>
+                    <input type="file" id="image1" name="image1" class="form-control" accept=".jpg,.jpeg,.png" />
+
+                    @Html.HiddenFor(m => m.ImgVideoPath, new { @class = "form-control" })
+                    <span id="imgError" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label class="control-label">For Time:</label>
+                    @Html.TextBoxFor(m => m.ForTime, new { @class = "form-control" })
+                </div>
+                <div class="form-group">
+                    <input type="submit" name="submit" id="Save" value="Save" class="btn btn-success btn-block" />
+                </div>
+            </div>
+            <div class="col-md-6">
+                @if (Model != null)
+                {
+                    string p = Model.SrNo + "" + Model.ImgVideoPath;
+                    if (Model.ImgOrVideo == 'I')
+                    {
+
+                        <img src="~/iv_LinkName/@p" alt="No image Found" class="embed-responsive" />
+                    }
+                    else
+                    {
+                        <video src="~/iv_LinkName/@p" class="embed-responsive" controls></video>
+                    }
+
+                }
+            </div>
+
+        </div>
+    </div>
+
+}
+
+<script src="~/lib/jquery/dist/jquery-ui.js"></script>
+<script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+
+
+@if (Model != null)
+{
+    <script>
+        $("#image1").click(function () {
+            if ($("input[id=ImgOrVideo1]:checked").val() == "I") {
+                $("#image1").attr("accept", ".jpg,.png,.jpeg");
+            }
+            else {
+                $("#image1").attr("accept", ".mp4,.mkv,.mpeg");
+            }
+        });
+
+        $("#Save").click(function () {
+
+            if ($("input[id=ImgOrVideo1]:checked").val() == "I") {
+                var file = $("#image1").val();
+                if (file != "") {
+                    var ext = file.match(/\.([^\.] +)$/)[1];
+                    switch (ext) {
+                        case 'jpg':
+                        case 'jpeg':
+                        case 'png':
+                            $("#imgError").html("");
+                            break;
+                        default:
+                            $("#imgError").html("Image should be .png .jpg .jpeg");
+                            return false;
+                    }
+                }
+            }
+            else {
+                var file = $("#image1").val();
+                if (file != "") {
+                    var ext = file.match(/\.([^\.] +)$/)[1];
+                    switch (ext) {
+                        case 'mp4':
+                        case 'mpeg':
+                        case 'mkv':
+                            $("#imgError").html("");
+                            break;
+                        default:
+                            $("#imgError").html("Video should be .mp4 .mkv .mpeg");
+                            return false;
+                    }
+                }
+
+            }
+
+        });
+    </script>
+}
+else
+{
+    <script>
+        $("#image1").click(function () {
+            if ($("input[id=ImgOrVideo1]:checked").val() == "I") {
+                $("#image1").attr("accept", ".jpg,.png,.jpeg");
+            }
+            else {
+                $("#image1").attr("accept", ".mp4,.mkv,.mpeg");
+            }
+        });
+
+        $("#Save").click(function () {
+
+            if ($("input[id=ImgOrVideo1]:checked").val() == "I") {
+                var file = $("#image1").val();
+
+                if (file != "") {
+                    var ext = file.match(/\.([^\.] +)$/)[1];
+                    switch (ext) {
+                        case 'jpg':
+                        case 'jpeg':
+                        case 'png':
+                            $("#imgError").html("");
+                            break;
+                        default:
+                            $("#imgError").html("Image should be .png .jpg .jpeg");
+                            return false;
+                    }
+                }
+                else {
+                    $("#imgError").html("Choose Image");
+                }
+            }
+            else {
+                var file = $("#image1").val();
+                if (file != "") {
+                    var ext = file.match(/\.([^\.] +)$/)[1];
+                    switch (ext) {
+                        case 'mp4':
+                        case 'mpeg':
+                        case 'mkv':
+                            $("#imgError").html("");
+                            break;
+                        default:
+                            $("#imgError").html("Video should be .mp4 .mkv .mpeg");
+                            return false;
+                    }                    
+                }
+                else {
+                    $("#imgError").html("Choose Video");
+                }
+            }
+        
+        });
+    </script>
+}
+

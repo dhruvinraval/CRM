@@ -1,0 +1,260 @@
+﻿@using RX108_Data
+@model PagingList<mst_productcategory>
+@{
+    ViewData["Title"] = "Product Category List";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    int? currentSort = ViewBag.CurrentSort == null ? 11 : Convert.ToInt32(ViewBag.CurrentSort);
+    if (currentSort == null)
+    {
+        currentSort = 11;
+    }
+}
+
+@if (TempData["msg"] != null)
+{
+    <div class="@TempData["Class"]">
+        <button class="close" data-dismiss="alert">
+            ×
+        </button>
+        @{ if (@TempData["Class"].ToString() == "alert alert-success")
+            {
+                <i class="fa-fw fa fa-check"></i>
+                <strong>Success</strong>
+            }
+            else
+            {
+                <i class="fa-fw fa fa-times"></i>
+                <strong>Error!</strong>
+            }
+        }
+        @TempData["MSG"]
+    </div>
+}
+<br />
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+        <a class="navbar-brand" href="#">Product Category List</a>
+    </div>
+    <form class="form-inline my-2 my-lg-0 float-right">
+        <a href="../Product/ProductCategoryAdd" class="btn btn-outline-info pull-right">
+            <i class="fa fa-plus-square"></i> &nbsp;
+            Add New
+        </a>
+    </form>
+</nav>
+<br />
+<div class="form-inline my-2 my-lg-0 float-right">
+    @using (Html.BeginForm("ProductCategoryIndex", "Product", FormMethod.Get))
+    {
+        @Html.TextBox("SearchString", ViewBag.CurrentFilter as string, new { @class = "form-control search-text", @placeholder = "Search.." })
+        <input class="btn btn-info" type="submit" value="Search" />
+    }
+
+</div>
+<br />
+<br />
+<div class="table-responsive text-nowrap">
+
+    <table class="table table-striped table-hover">
+
+        <tr>
+            <th scope="row">#</th>
+            <th>
+                @{
+                    if (currentSort == 11)
+                    {
+                        @Html.ActionLink("Status", "ProductCategoryIndex", new
+                        {
+                            sortField = "12",
+                            currentSortField = ViewBag.SortField,
+                            currentSortOrder = ViewBag.SortOrder,
+                            currentFilter = ViewBag.CurrentFilter
+                        })
+                    }
+                    else
+                    {
+                        @Html.ActionLink("Status", "ProductCategoryIndex", new
+                        {
+                            sortField = "11",
+                            currentSortField = ViewBag.SortField,
+                            currentSortOrder = ViewBag.SortOrder,
+                             currentFilter = ViewBag.CurrentFilter
+                        })
+                    }
+                    if (currentSort == 11)
+                    {
+                        <i class="fa fa-sort-up pull-right"></i>}
+                    else if (currentSort == 12)
+                    {
+                        <i class="fa fa-sort-down pull-right"></i>}
+                    else
+                    {
+                        <i class="fa fa-sort pull-right"></i>
+                    }
+                }
+            </th>
+            <th>
+                @{
+                    if (currentSort == 21)
+                    {
+                        @Html.ActionLink("ProductCategory", "ProductCategoryIndex", new
+                        {
+                            sortField = "22",
+                            currentSortField = ViewBag.SortField,
+                            currentSortOrder = ViewBag.SortOrder,
+                            currentFilter = ViewBag.CurrentFilter
+                        })
+                    }
+                    else
+                    {
+                        @Html.ActionLink("ProductCategory", "ProductCategoryIndex", new
+                        {
+                            sortField = "21",
+                            currentSortField = ViewBag.SortField,
+                            currentSortOrder = ViewBag.SortOrder,
+                             currentFilter = ViewBag.CurrentFilter
+                        })
+                    }
+                    if (currentSort == 21)
+                    {
+                        <i class="fa fa-sort-up pull-right"></i>}
+                    else if (currentSort == 22)
+                    {
+                        <i class="fa fa-sort-down pull-right"></i>}
+                    else
+                    {
+                        <i class="fa fa-sort pull-right"></i>
+                    }
+                }
+            </th>
+            <th>Video</th>
+            <th>Remark</th>
+            <th scope="col">Actions</th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+    <tr>
+        <td scope="row">@Html.DisplayFor(modelItem => item.DisID)</td>
+        <td>
+            @if (item.Status == 'T')
+            {
+                <label>Yes</label>
+            }
+            else
+            {
+                <label>No</label>
+            }
+            @*@Html.DisplayFor(modelItem => item.ImgOrVideo)*@
+        </td>
+        <td>@Html.DisplayFor(modelItem => item.ProductCategory)</td>
+        @{
+            iv_LinkName iv_Link = new iv_LinkName();
+            iv_Link = iv_LinkName.GetByID(item.IV_LinkName_SrNo);
+            string str = iv_Link.SrNo + "" + iv_Link.ImgVideoPath;
+            if (iv_Link.ImgOrVideo == 'I')
+            {
+
+                <td> <img id="@item.SrNo" data-toggle="modal" data-target="#vmodel" src="~/iv_LinkName/@str" alt="No Image" style="width:50px;height:50px;"></td>
+
+            }
+            else
+            {
+                <td><video data-toggle="modal" id="@item.SrNo" data-target="#vmodel" src="~/iv_LinkName/@str" height="50px" width="50px"> </video></td>
+            }
+        }
+        <td>@Html.DisplayFor(modelItem => item.Remark)</td>
+        <td>
+            <a class="btn btn-primary" href="../Product/ProductCategoryAdd?srno=@item.SrNo">
+                <i class="fa fa-edit"></i>
+            </a>
+            <a class="btn btn-danger" href="../Product/ProductCategoryDelete?srno=@item.SrNo" onclick="return confirm('Are you sure want to delete this record?');">
+                <i class="fa fa-trash-alt"></i>
+            </a>
+        </td>
+    </tr>
+        }
+        <div id="vmodel" class="modal fade bd-example-modal-xl" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel"
+             aria-hidden="true">
+            <div class="modal-dialog modal-xl">
+                <div class="col-md-5 dropright">
+                    <a class="btn btn-danger"><i class="fa fa-close"></i></a>
+                </div>
+                <div class="modal-content">
+                </div>
+
+            </div>
+        </div>
+    </table>
+
+    @{
+        var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+        var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+        var totalPageNo = Model.TotalPageNo;
+        var currentPageNo = Model.PageIndex;
+    }
+    <div class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="navbar-collapse">
+            Total Records: <b>@Model.TotalRecords</b> |
+            <span>
+                Page No :<b>@currentPageNo</b> of <b>@totalPageNo</b>
+            </span>
+
+        </div>
+        <div>
+            <a asp-action="ProductCategoryIndex"
+               asp-route-sortOrder="@ViewData["CurrentSort"]"
+               asp-route-pageNo="@(Model.PageIndex - 1)"
+               asp-route-currentFilter="@ViewData["CurrentFilter"]"
+               class="btn btn-default @prevDisabled">
+                Previous
+            </a>
+            <a asp-action="ProductCategoryIndex"
+               asp-route-sortOrder="@ViewData["CurrentSort"]"
+               asp-route-pageNo="@(Model.PageIndex + 1)"
+               asp-route-currentFilter="@ViewData["CurrentFilter"]"
+               class="btn btn-default @nextDisabled">
+                Next
+            </a>
+        </div>
+    </div>
+
+</div>
+@if (Model != null)
+{
+    @foreach(var item in Model) { 
+    iv_LinkName iv_Link = new iv_LinkName();
+    iv_Link = iv_LinkName.GetByID(item.IV_LinkName_SrNo);
+    string str1 = iv_Link.SrNo + "" + iv_Link.ImgVideoPath;
+    if (iv_Link.ImgOrVideo == 'I')
+    {
+
+        <script>
+            $("#@item.SrNo").click(function () {
+
+                $(".modal-content").html("<img src='../iv_LinkName/@str1' class='embed-responsive'/>");
+            });
+        </script>
+    }
+    else
+    {
+        str1 = iv_Link.SrNo + "" + iv_Link.ImgVideoPath;
+        <script>
+                $("#@item.SrNo").click(function() {
+                $(".modal-content").html("<video id='video' src='../iv_LinkName/@str1' class='embed-responsive' controls></video>");
+                });
+
+        </script>
+    }
+}
+}
+
+<script>
+
+    $("#vmodel").focusout(function () {
+        if ($("#video").length) {
+            $("#video").get(0).pause();
+        }
+    });
+</script>
+

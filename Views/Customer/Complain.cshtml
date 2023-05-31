@@ -1,0 +1,79 @@
+﻿@using System.Data
+@using RX108_Data
+@model complain
+@{
+    ViewData["Title"] = "Complain";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="@ViewBag.Class">
+    @ViewBag.Msg
+</div>
+
+<style>
+
+    .error {
+        color: red;
+    }
+</style>
+<h1>Register Your Complain here</h1>
+<hr />
+@using (Html.BeginForm("Complain", "Customer", FormMethod.Post, htmlAttributes: new { @enctype = "multipart/form-data" }))
+{
+    <div class="container">
+
+
+        <div class="form-group">
+            @Html.HiddenFor(m => m.SrNo)
+            <label class="control-label col-sm-3 ">Enter Name  </label>
+            <div class="col-sm-3">
+                @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.Name, "", new { @class = "error" })
+            </div>
+
+        </div>
+        <div class="form-group">
+
+            <label class="control-label col-sm-3 ">Enter Place </label>
+            <div class="col-sm-3">
+                @Html.TextBoxFor(m => m.Place, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.Place, "", new { @class = "error" })
+            </div>
+
+        </div>
+        <div class="form-group">
+
+            <label class="control-label col-sm-3 ">Enter Contact No  </label>
+            <div class="col-sm-3">
+                @Html.TextBoxFor(m => m.ContactNo, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.ContactNo, "", new { @class = "error" })
+            </div>
+
+        </div>
+        <div class="form-group">
+
+            <label class="control-label col-sm-3 ">Software Name  </label>
+            <div class="col-sm-3">
+                @Html.TextBoxFor(m => m.SoftwareName, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.SoftwareName, "", new { @class = "error" })
+            </div>
+
+        </div>
+        <div class="form-group">
+
+            <label class="control-label col-sm-3 ">Problem With Software  </label>
+            <div class="col-sm-3">
+                
+                <textarea cols="15" rows="7" class="form-control" id="Problem" name="Problem" style="resize:none;" required></textarea>
+
+            </div>
+
+        </div>
+        <div class="form-group col-sm-2">
+            <input type="submit" name="submit" value="Send" id="Save" class="btn btn-success" />
+        </div>
+    </div>
+}
+<script src="~/lib/jquery/dist/jquery.js"></script>
+<script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+

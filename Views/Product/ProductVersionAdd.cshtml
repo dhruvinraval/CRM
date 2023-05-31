@@ -1,0 +1,109 @@
+﻿@using RX108_Data
+@model mst_productversion
+@{
+    ViewData["Title"] = "Product Version";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<link href="~/css/jquery-ui.css" rel="stylesheet" />
+<div class="@ViewBag.Class">
+    @ViewBag.Msg
+</div>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+        <a class="navbar-brand" href="#">Create Product Version</a>
+    </div>
+    <form class="form-inline my-2 my-lg-0 float-right">
+        <a href="../Product/ProductVersionIndex" class="btn btn-outline-info pull-right">
+            <i class="fa fa-list-alt"></i> &nbsp;
+            Back To List
+        </a>
+    </form>
+</nav>
+<br />
+@{
+    List<iv_LinkName> iv_list = new List<iv_LinkName>();
+    int total = 0;
+    iv_list = iv_LinkName.GetAll(1, 1000, 11, ref total, "");
+
+    @using (Html.BeginForm("ProductVersionAdd", "Product", FormMethod.Post, new { @class = "form-horizontal" }))
+    {
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label">Product*</label>
+                        @Html.HiddenFor(m => m.SrNo)
+                        @{
+                            List<mst_product> lst = new List<mst_product>();
+                            lst = mst_product.GetAll(1, 1000, 11, ref total, "");
+                            @Html.DropDownListFor(m => m.Mst_Product_SrNo, new SelectList(lst, "SrNo", "ProductName", ""), new { @class = "form-control" })
+                        }
+                        @Html.ValidationMessageFor(m => m.Mst_Product_SrNo, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Version Name*</label>
+
+                        @Html.TextBoxFor(m => m.VersionName, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.VersionName, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label">Version Code*</label>
+
+                        @Html.TextBoxFor(m => m.VersionCode, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.VersionCode, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="form-group">
+                        <label>Version Release Date*</label>
+                        @Html.TextBoxFor(m => m.VersionReleaseDate, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.VersionReleaseDate, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Video</label>
+                        @Html.DropDownListFor(m => m.BriefVideoLink, new SelectList(iv_list, "SrNo", "BriefName"), new { @class = "form-control" })
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Remark:</label>
+                        @Html.TextBoxFor(m => m.Remark, new { @class = "form-control" })
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" name="submit" value="Save" class="btn btn-success btn-block" />
+                    </div>
+
+                </div>
+                <div class="col-md-6"></div>
+            </div>
+        </div>
+
+    }
+}
+
+<script src="~/lib/jquery/dist/jquery-ui.js"></script>
+<script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+<script>
+    $(function () {
+        $("#VersionReleaseDate").datepicker({
+            dateFormat: "dd/mm/yy"
+        });
+
+        var x = $("#VersionReleaseDate").val();
+        if (x != "") {
+            var inputval = x.split(" ");
+            var dateval = new Date(inputval[0]);
+            var month = ("0" + (dateval.getMonth() + 1)).slice(-2);
+            var day = ("0" + dateval.getDate()).slice(-2)
+            var year = dateval.getUTCFullYear();
+
+            var dt = day + "/" + month + "/" + year;
+            $("#VersionReleaseDate").val(dt);
+        } else {
+            $("#VersionReleaseDate").val("");
+        }
+
+    });
+   
+</script>

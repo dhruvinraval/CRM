@@ -1,0 +1,245 @@
+﻿
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - VIPL_CRM</title>
+
+    <environment include="Development">
+        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+    </environment>
+    <environment include="Development">
+        <script src="~/lib/jquery/dist/jquery.js"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.js"></script>
+    </environment>
+    <environment exclude="Development">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"
+                asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
+                asp-fallback-test="window.jQuery"
+                crossorigin="anonymous"
+                integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=">
+        </script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"
+                asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"
+                asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal"
+                crossorigin="anonymous"
+                integrity="sha384-xrRywqdh3PHs8keKZN+8zzc5TX0GRTLCcmivcbNJWm2rs5C8PRhcEn3czEjhAO9o">
+        </script>
+    </environment>
+    <environment exclude="Development">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+              asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
+              asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute"
+              crossorigin="anonymous"
+              integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" />
+    </environment>
+    <link rel="stylesheet" href="~/css/site.css" />
+    <link href="~/lib/Fontawesome/css/all.css" rel="stylesheet" />
+    <link href="~/lib/Fontawesome/css/fontawesome.css" rel="stylesheet" />
+    <link href="~/lib/Fontawesome/css/v4-shims.css" rel="stylesheet" />
+
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container">
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">VIPL_CRM</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
+                    <ul class="navbar-nav flex-grow-1">
+
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            if (User.IsInRole("admin"))
+                            {
+
+
+                                <li class="nav-item dropdown">
+
+                                    <a class="nav-link text-dark dropdown-toggle DropDownNestMaster" href="#" id="dropdownMenuLink" data-toggle="dropdown">
+                                        Master
+                                    </a>
+
+                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                        <a class="dropdown-item" asp-area="" asp-controller="Holiday" asp-action="List">Holidays</a>
+
+                                        <div class="dropright">
+                                            <a class="dropdown-item dropdown-toggle DropDownNestMaster" href="#" data-toggle="dropdown">
+                                                Location
+                                            </a>
+                                            <div class="dropdown-menu DropDownNestSlave" id="loc">
+                                                <a class="dropdown-item" asp-area="" asp-controller="Master" asp-action="CountryList">Country</a>
+                                                <a class="dropdown-item" asp-area="" asp-controller="Master" asp-action="StateList">State</a>
+                                                <a class="dropdown-item" asp-area="" asp-controller="Master" asp-action="DistrictList">District</a>
+                                                <a class="dropdown-item" asp-area="" asp-controller="Master" asp-action="AreaList">Area</a>
+                                                <a class="dropdown-item" asp-area="" asp-controller="Master" asp-action="RegionList">Region</a>
+                                                <a class="dropdown-item" asp-area="" asp-controller="Master" asp-action="RegionChildList">RegionChild</a>
+
+                                            </div>
+                                        </div>
+
+                                        <a class="dropdown-item" asp-area="" asp-controller="ImageVideo" asp-action="Index">Image Video</a>
+
+                                        <div class="dropright">
+                                            <a class="dropdown-item dropdown-toggle DropDownNestMaster" href="#" data-toggle="dropdown">
+                                                Product
+                                            </a>
+
+                                            <div class="dropdown-menu DropDownNestSlave">
+                                                <a class="dropdown-item" asp-area="" asp-controller="Product" asp-action="ProductCategoryIndex">ProductCategory</a>
+                                                <a class="dropdown-item" asp-area="" asp-controller="Product" asp-action="ProductSubCategoryIndex">ProductSubCategory</a>
+                                                <a class="dropdown-item" asp-area="" asp-controller="Product" asp-action="ProductIndex">Product</a>
+                                                <a class="dropdown-item" asp-area="" asp-controller="Product" asp-action="ProductModuleIndex">ProductModule</a>
+                                                <a class="dropdown-item" asp-area="" asp-controller="Product" asp-action="ProductVersionIndex">ProductVersion</a>
+                                                <a class="dropdown-item" asp-area="" asp-controller="Product" asp-action="PVChangesIndex">PVChanges</a>
+                                                <a class="dropdown-item" asp-area="" asp-controller="Product" asp-action="ProductPriceIndex">ProductPrice</a>
+                                                <a class="dropdown-item" asp-area="" asp-controller="Product" asp-action="PPModulesIndex">PPModules</a>
+                                            </div>
+                                        </div>
+
+
+                                        <a class="dropdown-item" asp-area="" asp-controller="BankingEmployeeMaster" asp-action="BankList">Bank</a>
+                                        <a class="dropdown-item" asp-area="" asp-controller="BankingEmployeeMaster" asp-action="DocTagList">Doc Tag</a>
+                                        <a class="dropdown-item" asp-area="" asp-controller="BankingEmployeeMaster" asp-action="DepartmentList">Department</a>
+                                        <a class="dropdown-item" asp-area="" asp-controller="BankingEmployeeMaster" asp-action="DesignationList">Designation</a>
+                                        <a class="dropdown-item" asp-area="" asp-controller="BankingEmployeeMaster" asp-action="RelationshipList">Relationship</a>
+                                        <a class="dropdown-item" asp-area="" asp-controller="BankingEmployeeMaster" asp-action="PerksList">Perks</a>
+                                        <a class="dropdown-item" asp-area="" asp-controller="BankingEmployeeMaster" asp-action="NoteList">Note</a>
+
+                                        <div class="dropright">
+                                            <a class="dropdown-item dropdown-toggle DropDownNestMaster" href="#" data-toggle="dropdown">
+                                                Employee
+                                            </a>
+
+                                            <div class="dropdown-menu DropDownNestSlave">
+                                                <a class="dropdown-item" asp-area="" asp-controller="BankingEmployeeMaster" asp-action="EmployeeReviewList">Employee Review</a>
+                                                <a class="dropdown-item" asp-area="" asp-controller="BankingEmployeeMaster" asp-action="EmpDeptReviewList">Employee Department Review</a>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+
+                                </li>
+                            }
+                            else if (User.IsInRole("employee"))
+                            {
+                                <li class="nav-item dropdown">
+
+                                    <a class="nav-link text-dark dropdown-toggle DropDownNestMaster" href="#" id="dropdownMenuLink" data-toggle="dropdown">
+                                        Employee
+                                    </a>
+
+                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                        @*<a class="dropdown-item" asp-area="" asp-controller="Holiday" asp-action="List">Holidays</a>*@
+
+
+                                        <div class="dropright">
+                                            @*<a class="dropdown-item dropdown-toggle DropDownNestMaster" href="#" data-toggle="dropdown">
+                                                Employee
+                                            </a>*@
+
+                                            <div class="dropdown-menu DropDownNestSlave">
+                                                @*<a class="dropdown-item" asp-area="" asp-controller="BankingEmployeeMaster" asp-action="EmployeeReviewList">Employee Review</a>
+                                                <a class="dropdown-item" asp-area="" asp-controller="BankingEmployeeMaster" asp-action="EmpDeptReviewList">Employee Department Review</a>*@
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+
+                                </li>
+                            }
+                            else if (User.IsInRole("customer"))
+                            {
+                                <li class="nav-item dropdown">
+
+                                    <a class="nav-link text-dark dropdown-toggle DropDownNestMaster" href="#" id="dropdownMenuLink" data-toggle="dropdown">
+                                        Customer
+                                    </a>
+
+                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                        @*<a class="dropdown-item" asp-area="" asp-controller="Holiday" asp-action="List">Holidays</a>*@
+
+
+                                        <div class="dropright">
+                                            @*<a class="dropdown-item dropdown-toggle DropDownNestMaster" href="#" data-toggle="dropdown">
+                                                Employee
+                                            </a>*@
+
+                                            <div class="dropdown-menu DropDownNestSlave">
+                                                @*<a class="dropdown-item" asp-area="" asp-controller="BankingEmployeeMaster" asp-action="EmployeeReviewList">Employee Review</a>
+                                                <a class="dropdown-item" asp-area="" asp-controller="BankingEmployeeMaster" asp-action="EmpDeptReviewList">Employee Department Review</a>*@
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+
+                                </li>
+                            }
+                        }
+
+                        else
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                            </li>
+                        }
+                    </ul>
+                </div>
+                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
+                    <ul class="navbar-nav flex-grow-2">
+                        <li>@await Html.PartialAsync("_LoginPartial")</li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container">
+        <partial name="_CookieConsentPartial" />
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2020 - VIPL_CRM - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </div>
+    </footer>
+
+    
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script>
+        $(document).ready(function () {
+            $('.DropDownNestMaster').on("click", function (e) {
+                $('.DropDownNestSlave').removeClass('show');
+                //$('.dropright a').hover( function (e) {
+                e.stopPropagation();
+
+
+
+                //e.preventDefault();
+
+                if (!$(this).next('div').hasClass('show')) {
+                    $(this).next('div').addClass('show');
+
+                }
+                else {
+                    $(this).next('div').removeClass('show');
+                }
+
+            });
+        });
+    </script>
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

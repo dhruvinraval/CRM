@@ -1,0 +1,363 @@
+﻿@using RX108_Data
+@model PagingList<mst_product>
+@{
+    ViewData["Title"] = "Product List";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    int? currentSort = ViewBag.CurrentSort == null ? 11 : Convert.ToInt32(ViewBag.CurrentSort);
+    if (currentSort == null)
+    {
+        currentSort = 11;
+    }
+}
+
+@if (TempData["msg"] != null)
+{
+    <div class="@TempData["Class"]">
+        <button class="close" data-dismiss="alert">
+            ×
+        </button>
+        @{ if (@TempData["Class"].ToString() == "alert alert-success")
+            {
+                <i class="fa-fw fa fa-check"></i>
+                <strong>Success</strong>
+            }
+            else
+            {
+                <i class="fa-fw fa fa-times"></i>
+                <strong>Error!</strong>
+            }
+        }
+        @TempData["MSG"]
+    </div>
+}
+<br />
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+        <a class="navbar-brand" href="#">Product List</a>
+    </div>
+    <form class="form-inline my-2 my-lg-0 float-right">
+        <a href="../Product/ProductAdd" class="btn btn-outline-info pull-right">
+            <i class="fa fa-plus-square"></i> &nbsp;
+            Add New
+        </a>
+    </form>
+</nav>
+
+<br />
+<div class="form-inline my-2 my-lg-0 float-right">
+    @using (Html.BeginForm("ProductIndex", "Product", FormMethod.Get))
+    {
+        @Html.TextBox("SearchString", ViewBag.CurrentFilter as string, new { @class = "form-control search-text", @placeholder = "Search.." })
+        <input class="btn btn-info" type="submit" value="Search" />
+    }
+
+</div>
+<br />
+<br />
+<div class="table-responsive text-nowrap">
+
+    <table class="table table-bordered table-hover">
+
+        <tr>
+            <th>#</th>
+            <th>
+                @{
+                    if (currentSort == 11)
+                    {
+                        @Html.ActionLink("Status", "ProductIndex", new
+                        {
+                            sortField = "12",
+                            currentSortField = ViewBag.SortField,
+                            currentSortOrder = ViewBag.SortOrder,
+                            currentFilter = ViewBag.CurrentFilter
+                        })
+                    }
+                    else
+                    {
+                        @Html.ActionLink("Status", "ProductIndex", new
+                        {
+                            sortField = "11",
+                            currentSortField = ViewBag.SortField,
+                            currentSortOrder = ViewBag.SortOrder,
+                             currentFilter = ViewBag.CurrentFilter
+                        })
+                    }
+                    if (currentSort == 11)
+                    {
+                        <i class="fa fa-sort-up pull-right"></i>}
+                    else if (currentSort == 12)
+                    {
+                        <i class="fa fa-sort-down pull-right"></i>}
+                    else
+                    {
+                        <i class="fa fa-sort pull-right"></i>
+                    }
+                }
+            </th>
+            <th>
+                @{
+                    if (currentSort == 21)
+                    {
+                        @Html.ActionLink("ProductName", "ProductIndex", new
+                        {
+                            sortField = "22",
+                            currentSortField = ViewBag.SortField,
+                            currentSortOrder = ViewBag.SortOrder,
+                            currentFilter = ViewBag.CurrentFilter
+                        })
+                    }
+                    else
+                    {
+                        @Html.ActionLink("ProductName", "ProductIndex", new
+                        {
+                            sortField = "21",
+                            currentSortField = ViewBag.SortField,
+                            currentSortOrder = ViewBag.SortOrder,
+                             currentFilter = ViewBag.CurrentFilter
+                        })
+                    }
+                    if (currentSort == 21)
+                    {
+                        <i class="fa fa-sort-up pull-right"></i>}
+                    else if (currentSort == 22)
+                    {
+                        <i class="fa fa-sort-down pull-right"></i>}
+                    else
+                    {
+                        <i class="fa fa-sort pull-right"></i>
+                    }
+                }
+            </th>
+            <th>Description</th>
+            <th>ProductCategory</th>
+            <th>ProductSubCategory</th>
+            <th>StartDate</th>
+            <th>EndDate</th>
+            <th>VideoLinkMkt</th>
+            <th>VideoLinkSupport</th>
+            <th>VideoLinkCustomer</th>
+            <th>Remark</th>
+            <th>Actions</th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            string str = (item.EndDate == null) ? "" : item.EndDate?.ToString("dd/MM/yyyy");
+            <tr>
+                <td>@Html.DisplayFor(modelItem => item.DisID)</td>
+                <td>
+                    @if (item.Status == 'T')
+                    {
+                        <label>Yes</label>
+                    }
+                    else
+                    {
+                        <label>No</label>
+                    }
+                    @*@Html.DisplayFor(modelItem => item.ImgOrVideo)*@
+                </td>
+                <td>@Html.DisplayFor(modelItem => item.ProductName)</td>
+                <td>@Html.DisplayFor(modelItem => item.Description)</td>
+                @{
+                    mst_productcategory mst_Productcategory = new mst_productcategory();
+                    mst_Productcategory = mst_productcategory.GetByID(item.Mst_ProductCategory_SrNo);
+                    <td>@mst_Productcategory.ProductCategory</td>
+                }
+                @{
+                    mst_productsubcategory mst_Productsubcategory = new mst_productsubcategory();
+                    mst_Productsubcategory = mst_productsubcategory.GetByID(item.Mst_ProductSubCategory_SrNo);
+                    <td>@mst_Productsubcategory.ProductSubCategoryName</td>
+                }
+                <td>@item.StartDate.ToString("dd/MM/yyyy")</td>
+                <td>@str</td>
+                @{
+                    iv_LinkName iv_Link = new iv_LinkName();
+                    iv_Link = iv_LinkName.GetByID(item.VideoLinkMkt);
+                    str = iv_Link.SrNo + "" + iv_Link.ImgVideoPath;
+                    string m = "m" + item.SrNo;
+                    if (iv_Link.ImgOrVideo == 'I')
+                    {
+                        <td> <img id="@m" data-toggle="modal" data-target="#vmodel" src="~/iv_LinkName/@str" alt="No Image" style="width:50px;height:50px;"></td>
+                    }
+                    else
+                    {
+                        <td><video data-toggle="modal" id="@m" data-target="#vmodel" src="~/iv_LinkName/@str" height="50px" width="50px"> </video></td>
+                    }
+                }
+                @{
+                    iv_Link = iv_LinkName.GetByID(item.VideoLinkSupport);
+                    str = iv_Link.SrNo + "" + iv_Link.ImgVideoPath;
+                    m = "s" + item.SrNo;
+                    if (iv_Link.ImgOrVideo == 'I')
+                    {
+                        <td> <img id="@m" data-toggle="modal" data-target="#vmodel" src="~/iv_LinkName/@str" alt="No Image" style="width:50px;height:50px;"></td>
+                    }
+                    else
+                    {
+                        <td><video data-toggle="modal" id="@m" data-target="#vmodel" src="~/iv_LinkName/@str" height="50px" width="50px"> </video></td>
+                    }
+                }
+                @{
+                    iv_Link = iv_LinkName.GetByID(item.VideoLinkCustomer);
+                    str = iv_Link.SrNo + "" + iv_Link.ImgVideoPath;
+                    m = "c" + item.SrNo;
+                    if (iv_Link.ImgOrVideo == 'I')
+                    {
+                        <td> <img id="@m" data-toggle="modal" data-target="#vmodel" src="~/iv_LinkName/@str" alt="No Image" style="width:50px;height:50px;"></td>
+                    }
+                    else
+                    {
+                        <td><video data-toggle="modal" id="@m" data-target="#vmodel" src="~/iv_LinkName/@str" height="50px" width="50px"> </video></td>
+                    }
+                }
+                <td>@Html.DisplayFor(modelItem => item.Remark)</td>
+                <td>
+                    <a class="btn btn-primary" href="../Product/ProductAdd?srno=@item.SrNo">
+                        <i class="fa fa-edit"></i>
+                    </a>
+                    <a class="btn btn-danger" href="../Product/ProductDelete?srno=@item.SrNo" onclick="return confirm('Are you sure want to delete this record?');">
+                        <i class="fa fa-trash-alt"></i>
+                    </a>
+                </td>
+            </tr>
+        }
+        <div id="vmodel" class="modal fade bd-example-modal-xl" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel"
+             aria-hidden="true">
+            <div class="modal-dialog modal-xl">
+                <div class="col-md-5 dropright">
+                    <a class="btn btn-danger"><i class="fa fa-close"></i></a>
+                </div>
+                <div class="modal-content">
+                </div>
+
+            </div>
+        </div>
+    </table>
+
+    @{
+        var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+        var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+        var totalPageNo = Model.TotalPageNo;
+        var currentPageNo = Model.PageIndex;
+    }
+
+
+</div>
+<br />
+<div class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="col-md-6" style="padding:0">
+        Total Records: <b>@Model.TotalRecords</b> |
+        <span>
+            Page No :<b>@currentPageNo</b> of <b>@totalPageNo</b>
+        </span>
+    </div>
+    <div class="col-md-6" style="text-align:right;padding:0;">
+        <a asp-action="ProductIndex" asp-controller="Product"
+           asp-route-sortOrder="@ViewData["CurrentSort"]"
+           asp-route-pageNo="@(Model.PageIndex - 1)"
+           asp-route-currentFilter="@ViewData["CurrentFilter"]"
+           class="btn btn-default @prevDisabled">
+            Previous
+        </a>
+        <a asp-action="ProductIndex" asp-controller="Product"
+           asp-route-sortOrder="@ViewData["CurrentSort"]"
+           asp-route-pageNo="@(Model.PageIndex + 1)"
+           asp-route-currentFilter="@ViewData["CurrentFilter"]"
+           class="btn btn-default @nextDisabled">
+            Next
+        </a>
+    </div>
+</div>
+@if (Model != null)
+{
+    @foreach (var item in Model)
+    {
+
+        iv_LinkName iv_Link = new iv_LinkName();
+        iv_Link = iv_LinkName.GetByID(item.VideoLinkMkt);
+
+        string str1 = iv_Link.SrNo + "" + iv_Link.ImgVideoPath;
+        string ms = "#m" + item.SrNo;
+        if (iv_Link.ImgOrVideo == 'I')
+        {
+
+            <script>
+            $("@ms").click(function () {
+
+                $(".modal-content").html("<img src='../iv_LinkName/@str1' class='embed-responsive'/>");
+            });
+            </script>
+        }
+        else
+        {
+            str1 = iv_Link.SrNo + "" + iv_Link.ImgVideoPath;
+            <script>
+                $("@ms").click(function() {
+                $(".modal-content").html("<video id='video' src='../iv_LinkName/@str1' class='embed-responsive' controls></video>");
+                });
+
+            </script>
+        }
+
+
+        iv_Link = iv_LinkName.GetByID(item.VideoLinkSupport);
+
+        str1 = iv_Link.SrNo + "" + iv_Link.ImgVideoPath;
+        ms = "#s" + item.SrNo;
+        if (iv_Link.ImgOrVideo == 'I')
+        {
+
+            <script>
+            $("@ms").click(function () {
+
+                $(".modal-content").html("<img src='../iv_LinkName/@str1' class='embed-responsive'/>");
+            });
+            </script>
+        }
+        else
+        {
+            str1 = iv_Link.SrNo + "" + iv_Link.ImgVideoPath;
+            <script>
+                $("@ms").click(function() {
+                $(".modal-content").html("<video id='video' src='../iv_LinkName/@str1' class='embed-responsive' controls></video>");
+                });
+
+            </script>
+        }
+
+
+        iv_Link = iv_LinkName.GetByID(item.VideoLinkCustomer);
+
+        str1 = iv_Link.SrNo + "" + iv_Link.ImgVideoPath;
+        ms = "#c" + item.SrNo;
+        if (iv_Link.ImgOrVideo == 'I')
+        {
+
+            <script>
+            $("@ms").click(function () {
+
+                $(".modal-content").html("<img src='../iv_LinkName/@str1' class='embed-responsive'/>");
+            });
+            </script>
+        }
+        else
+        {
+            str1 = iv_Link.SrNo + "" + iv_Link.ImgVideoPath;
+            <script>
+                $("@ms").click(function() {
+                $(".modal-content").html("<video id='video' src='../iv_LinkName/@str1' class='embed-responsive' controls></video>");
+                });
+
+            </script>
+        }
+    }
+}
+
+<script>
+
+    $("#vmodel").focusout(function () {
+        if ($("#video").length) {
+            $("#video").get(0).pause();
+        }
+    });
+</script>

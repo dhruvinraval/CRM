@@ -1,0 +1,176 @@
+﻿
+@model RX108_Data.Feedback
+@{
+    ViewData["Title"] = "Feedback";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="@ViewBag.Class">
+    @ViewBag.Msg
+</div>
+
+<style>
+
+    .error {
+        color: red;
+    }
+</style>
+<h1>Feedback</h1>
+<hr />
+@using (Html.BeginForm("Feedback", "Customer", FormMethod.Post, htmlAttributes: new { @enctype = "multipart/form-data" }))
+{
+    <div class="form-row">
+        @Html.HiddenFor(m => m.SrNo)
+        <div class="col-md-3">
+            <input type="text" class="form-control" placeholder="First name" asp-for="FirstName">
+            @Html.ValidationMessageFor(m => m.FirstName, "", new { @class = "error" })
+        </div>
+        <div class="col-md-3">
+            <input type="text" class="form-control" placeholder="Last name" asp-for="LastName">
+            @Html.ValidationMessageFor(m => m.LastName, "", new { @class = "error" })
+        </div>
+    </div>
+    <br />
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <input type="text" class="form-control" id="email" asp-for="Email" placeholder="Email">
+            @Html.ValidationMessageFor(m => m.Email, "", new { @class = "error" })
+        </div>
+    </div>
+
+    <label class="form-check-label">
+        <b>Which department do you have suggestion for?</b>
+    </label>
+    @if (Model != null)
+    {
+        @if (Model.Suggestion == "Sales")
+        {
+
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="Suggestion" id="Suggestion" value="Sales" checked>
+                <label class="form-check-label">Sales</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="Suggestion" id="Suggestion" value="Customer Support">
+                <label class="form-check-label">Customer Support</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="Suggestion" id="Suggestion" value="Product">
+                <label class="form-check-label">About Product</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="Suggestion" id="Suggestion" value="Other">
+                <label class="form-check-label">Other</label>
+            </div>
+            @Html.ValidationMessageFor(m => m.Suggestion, "", new { @class = "text-danger" })
+            <br />
+        }
+        else if (Model.Suggestion == "Customer Support")
+        {
+
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="Suggestion" id="Suggestion" value="Sales">
+                <label class="form-check-label">Sales</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="Suggestion" id="Suggestion" value="Customer Support" checked>
+                <label class="form-check-label">Customer Support</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="exampleRadios" id="product" value="Product">
+                <label class="form-check-label">About Product</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="Suggestion" id="Suggestion" value="Other">
+                <label class="form-check-label">Other</label>
+            </div>
+            @Html.ValidationMessageFor(m => m.Suggestion, "", new { @class = "text-danger" })
+            <br />
+        }
+        else if (Model.Suggestion == "Product")
+        {
+
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="Suggestion" id="Suggestion" value="Sales">
+                <label class="form-check-label" for="exampleRadios1">Sales</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="Suggestion" id="Suggestion" value="Customer Support">
+                <label class="form-check-label" for="exampleRadios2">Customer Support</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="Suggestion" id="Suggestion" value="Product" checked>
+                <label class="form-check-label" for="exampleRadios2">About Product</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="Suggestion" id="Suggestion" value="Other">
+                <label class="form-check-label" for="exampleRadios2">Other</label>
+            </div>
+            @Html.ValidationMessageFor(m => m.Suggestion, "", new { @class = "text-danger" })
+            <br />
+        }
+        else if (Model.Suggestion == "Other")
+        {
+
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="Suggestion" id="Suggestion" value="Sales">
+                <label class="form-check-label" for="exampleRadios1">Sales</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="Suggestion" id="Suggestion" value="Customer Support">
+                <label class="form-check-label" for="exampleRadios2">Customer Support</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="Suggestion" id="Suggestion" value="Product">
+                <label class="form-check-label" for="exampleRadios2">About Product</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="Suggestion" id="Suggestion" value="Other" checked>
+                <label class="form-check-label" for="exampleRadios2">Other</label>
+            </div>
+            @Html.ValidationMessageFor(m => m.Suggestion, "", new { @class = "text-danger" })
+            <br />
+        }
+    }
+    else
+    {
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="Suggestion" id="Suggestion" value="Sales">
+            <label class="form-check-label" for="exampleRadios1">Sales</label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="Suggestion" id="Suggestion" value="Customer Support">
+            <label class="form-check-label" for="exampleRadios2">Customer Support</label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="Suggestion" id="Suggestion" value="Product">
+            <label class="form-check-label" for="exampleRadios2">About Product</label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="Suggestion" id="Suggestion" value="Other" checked>
+            <label class="form-check-label" for="exampleRadios2">Other</label>
+        </div>
+
+        <br />
+    }
+
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <input type="text" class="form-control" asp-for="Subject" placeholder="Subject">
+            @Html.ValidationMessageFor(m => m.Subject, "", new { @class = "error" })
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <textarea class="form-control" multiple placeholder="Message" asp-for="Message" rows="5" cols="15" style="resize:none;"></textarea>
+            @Html.ValidationMessageFor(m => m.Message, "", new { @class = "error" })
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <input type="submit" name="submit" value="Send" id="Save" class="btn btn-success" />
+        </div>
+    </div>
+}
+<script src="~/lib/jquery/dist/jquery.js"></script>
+<script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>

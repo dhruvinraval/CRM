@@ -1,0 +1,179 @@
+﻿@using RX108_Data
+@model mst_product
+@{
+    ViewData["Title"] = "Product";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="~/css/jquery-ui.css" rel="stylesheet" />
+<div class="@ViewBag.Class">
+    @ViewBag.Msg
+</div>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+        <a class="navbar-brand" href="#">Create Product</a>
+    </div>
+    <form class="form-inline my-2 my-lg-0 float-right">
+        <a href="../Product/ProductIndex" class="btn btn-outline-info pull-right">
+            <i class="fa fa-list-alt"></i> &nbsp;
+            Back To List
+        </a>
+    </form>
+</nav>
+<br />
+@{
+    List<iv_LinkName> iv_list = new List<iv_LinkName>();
+    int total = 0;
+    iv_list = iv_LinkName.GetAll(1, 1000, 11, ref total, "");
+
+    @using (Html.BeginForm("ProductAdd", "Product", FormMethod.Post, new { @class = "form-horizontal" }))
+    {
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        @Html.HiddenFor(m => m.SrNo)
+                        <label>Status*</label>
+                        @if (Model != null)
+                        {
+
+                            @if (Model.Status == 'T')
+                            {
+                                <input type="radio" id="Status" name="Status" value="T" checked /><label>Active</label>
+                                <input type="radio" id="Status" name="Status" value="F" /><label>Block</label>
+                                @Html.ValidationMessageFor(m => m.Status, "", new { @class = "text-danger" })
+                            }
+                            else if (Model.Status == 'F')
+                            {
+                                <input type="radio" id="Status" name="Status" value="I" /><label>Active</label>
+                                <input type="radio" id="Status" name="Status" value="F" checked /><label>Block</label>
+                                @Html.ValidationMessageFor(m => m.Status, "", new { @class = "text-danger" })
+                            }
+                        }
+                        else
+                        {
+                            <input type="radio" id="Status" name="Status" value="T" checked /><label>Active</label>
+                            <input type="radio" id="Status" name="Status" value="F" /><label>Block</label>
+                            @Html.ValidationMessageFor(m => m.Status, "", new { @class = "text-danger" })
+                        }
+                        @Html.ValidationMessageFor(m => m.Status, "", new { @class = "text-danger" })
+
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Product Name*</label>
+
+                        @Html.TextBoxFor(m => m.ProductName, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.ProductName, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Description*</label>
+
+                        @Html.TextBoxFor(m => m.Description, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.Description, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label">Product Category*</label>
+                        @{
+                            List<mst_productcategory> lst = new List<mst_productcategory>();
+                            lst = mst_productcategory.GetAll(1, 1000, 11, ref total, "");
+                            @Html.DropDownListFor(m => m.Mst_ProductCategory_SrNo, new SelectList(lst, "SrNo", "ProductCategory", ""), new { @class = "form-control" })
+                        }
+                        @Html.ValidationMessageFor(m => m.Mst_ProductCategory_SrNo, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Product Sub Category*</label>
+                        @{
+                            List<mst_productsubcategory> lst1 = new List<mst_productsubcategory>();
+                            lst1 = mst_productsubcategory.GetAll(1, 1000, 11, ref total, "");
+                            @Html.DropDownListFor(m => m.Mst_ProductSubCategory_SrNo, new SelectList(lst1, "SrNo", "ProductSubCategoryName", ""), new { @class = "form-control" })
+                        }
+                        @Html.ValidationMessageFor(m => m.Mst_ProductSubCategory_SrNo, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="form-group">
+                        <label>Start Date*</label>
+                        @Html.TextBoxFor(m => m.StartDate, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.StartDate, "", new { @class = "text-danger" })
+                    </div>
+
+                    
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>End Date*</label>
+                        @Html.TextBoxFor(m => m.EndDate, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.EndDate, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label">VideoLinkMkt</label>
+                        @Html.DropDownListFor(m => m.VideoLinkMkt, new SelectList(iv_list, "SrNo", "BriefName"), new { @class = "form-control" })
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">VideoLinkSupport</label>
+                        @Html.DropDownListFor(m => m.VideoLinkSupport, new SelectList(iv_list, "SrNo", "BriefName"), new { @class = "form-control" })
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">VideoLinkCustomer</label>
+                        @Html.DropDownListFor(m => m.VideoLinkCustomer, new SelectList(iv_list, "SrNo", "BriefName"), new { @class = "form-control" })
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Remark:</label>
+                        @Html.TextBoxFor(m => m.Remark, new { @class = "form-control" })
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" name="submit" value="Save" class="btn btn-success btn-block" />
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    }
+}
+
+<script src="~/lib/jquery/dist/jquery-ui.js"></script>
+<script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+<script>
+    $(function () {
+        $("#StartDate").datepicker({
+            dateFormat: "dd/mm/yy"
+        });
+
+        var x = $("#StartDate").val();
+        if (x != "") {
+            var inputval = x.split(" ");
+            var dateval = new Date(inputval[0]);
+            var month = ("0" + (dateval.getMonth() + 1)).slice(-2);
+            var day = ("0" + dateval.getDate()).slice(-2)
+            var year = dateval.getUTCFullYear();
+
+            var dt = day + "/" + month + "/" + year;
+            $("#StartDate").val(dt);
+        } else {
+            $("#StartDate").val("");
+        }
+
+    });
+    $(function () {
+        $("#EndDate").datepicker({
+            dateFormat: "dd/mm/yy"
+        });
+
+        var x = $("#EndDate").val();
+        if (x != "") {
+            var inputval = x.split(" ");
+            var dateval = new Date(inputval[0]);
+            var month = ("0" + (dateval.getMonth() + 1)).slice(-2);
+            var day = ("0" + dateval.getDate()).slice(-2)
+            var year = dateval.getUTCFullYear();
+
+            var dt = day + "/" + month + "/" + year;
+            $("#EndDate").val(dt);
+        } else {
+            $("#EndDate").val("");
+        }
+
+    });
+</script>

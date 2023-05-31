@@ -1,0 +1,52 @@
+﻿@using RX108_Data
+@model RegisterViewModel
+@{
+    ViewData["Title"] = "Register";
+}
+
+<br />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-route-returnUrl="@ViewData["ReturnUrl"]" method="post" style="width:350px">
+            <h4>Create a new account.</h4>
+            <hr />
+            <div asp-validation-summary="All" class="text-danger"></div>
+
+            <div class="form-group">
+                <label asp-for="FirstName" style="width:185px; display:inline-block;"></label>
+                <input asp-for="FirstName" class="form-control" />
+            </div>
+
+            <div class="form-group">
+                <label asp-for="LastName" style="width:185px; display:inline-block;"></label>
+                <input asp-for="LastName" class="form-control" />
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Email" style="width:185px; display:inline-block;"></label>
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Password" style="width:185px; display:inline-block;"></label>
+                <input asp-for="Password" class="form-control" />
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ConfirmPassword" style="width:185px; display:inline-block;"></label>
+                <input asp-for="ConfirmPassword" class="form-control" />
+                <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label style="width:185px; display:inline-block;">Roles</label>
+                
+                @Html.DropDownListFor(m => m.roles, new SelectList(new List<Object> { new { value = "admin", text = "Admin"}, new { value = "user", text = "User" }, new { value = "customer", text = "Customer" }, new { value = "employee", text = "Employee" } }, "value", "text"), new { @class = "form-control" })
+
+            </div>
+            <button type="submit" class="btn btn-success" style="float:left;" id="save" name="Register">Register</button>
+        </form>
+    </div>
+</div>
+<script src="~/lib/jquery/dist/jquery.js"></script>
+<script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>

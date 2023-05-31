@@ -1,0 +1,199 @@
+﻿@model RX108_Data.Holidays
+@{
+    ViewData["Title"] = "Holiday";
+}
+
+<link href="~/css/jquery-ui.css" rel="stylesheet" />
+<link href="~/lib/timepicker/stylesheets/wickedpicker.css" rel="stylesheet" />
+<div class="@ViewBag.Class">
+    @ViewBag.Msg
+</div>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+        <a class="navbar-brand" href="#">Create Holidays</a>
+    </div>
+    <form class="form-inline my-2 my-lg-0 float-right">
+        <a href="../Holiday/List" class="btn btn-outline-info pull-right">
+            <i class="fa fa-list-alt"></i> &nbsp;
+            Back To List
+        </a>
+    </form>
+</nav>
+<br />
+<div class="container">
+    @using (Html.BeginForm("Index", "Holiday", FormMethod.Post))
+    {<div class="row">
+
+            <div class="col-sm-6">
+                <div class="form-group">
+                    @Html.HiddenFor(m => m.SrNo)
+                    <label>For Year*</label>
+                    <input asp-for="ForYear" class="form-control" />
+                    @Html.ValidationMessageFor(m => m.ForYear, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group">
+                    <label>Holiday Name*</label>
+                    <input asp-for="HolidayName" class="form-control" />
+                    @Html.ValidationMessageFor(m => m.HolidayName, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group">
+                    <label>Type*</label><br />
+                    @if (Model != null)
+                    {
+
+                        @if (Model.Type == "G")
+                        {
+                            <input type="radio" id="Type" name="Type" checked /><label>General</label>
+                            <input type="radio" id="Type" name="Type" /><label>Selective</label>
+                            @Html.ValidationMessageFor(m => m.Type, "", new { @class = "text-danger" })
+                        }
+                        else
+                        {
+                            <input type="radio" id="Type" name="Type" /><label>General</label>
+                            <input type="radio" id="Type" name="Type" checked /><label>Selective</label>
+                            @Html.ValidationMessageFor(m => m.Type, "", new { @class = "text-danger" })
+                        }
+                    }
+                    else
+                    {
+                        <input type="radio" id="Type" name="Type" checked /><label>General</label>
+                        <input type="radio" id="Type" name="Type" /><label>Selective</label>
+                        @Html.ValidationMessageFor(m => m.Type, "", new { @class = "text-danger" })
+                    }
+
+                </div>
+                <div class="form-group">
+                    <label>For Date*</label>
+                    @Html.TextBoxFor(m => m.date, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.date, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="col-sm-6">
+
+                <div class="form-group">
+                    <label>Start Time</label>
+                    <input id="StartTime" name="StartTime" class="form-control" />
+                    
+                </div>
+                <div class="form-group">
+                    <label>Off Time</label>
+                    <input id="OffTime" name="OffTime" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label>PartialWorking*</label><br />
+                    @if (Model != null)
+                    {
+
+                        @if (Model.Type == "T")
+                        {
+                            <input type="radio" id="PartialWorking" name="PartialWorking" checked /><label>True</label>
+                            <input type="radio" id="PartialWorking" name="PartialWorking" /><label>False</label>
+                            @Html.ValidationMessageFor(m => m.PartialWorking, "", new { @class = "text-danger" })
+                        }
+                        else
+                        {
+                            <input type="radio" id="PartialWorking" name="PartialWorking" /><label>True</label>
+                            <input type="radio" id="PartialWorking" name="PartialWorking" checked /><label>False</label>
+                            @Html.ValidationMessageFor(m => m.PartialWorking, "", new { @class = "text-danger" })
+                        }
+                    }
+                    else
+                    {
+                        <input type="radio" id="PartialWorking" name="PartialWorking" checked /><label>True</label>
+                        <input type="radio" id="PartialWorking" name="PartialWorking" /><label>False</label>
+                        @Html.ValidationMessageFor(m => m.PartialWorking, "", new { @class = "text-danger" })
+                    }
+                </div>
+                <div class="form-group">
+                    <label>Remark</label>
+                    <input asp-for="Remark" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <input type="submit" name="submit" value="Save" id="Save" class="btn btn-success btn-block" />
+                </div>
+            </div>
+
+        </div>
+    }
+</div>
+<script src="~/lib/jquery/dist/jquery-ui.js"></script>
+<script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+<script src="~/lib/timepicker/src/wickedpicker.js"></script>
+<script>
+    ////$(function () {
+    ////    $("#ForDate").datepicker({
+    ////        dateFormat: "dd/mm/yy"
+    ////    });
+    ////});
+    $(function () {
+        $('#ForYear').datepicker({
+            changeYear: true,
+            showButtonPanel: false,
+            dateFormat: 'yy',
+            onClose: function (dateText, inst) {
+                var year = $("#ui-datepicker-div .ui-datepicker-year :selected").val();
+                $(this).datepicker('setDate', new Date(year, 1));
+            }
+        });
+    });
+    $("#StartTime").click(function () {
+        var options = {
+            
+            twentyFour: true, //Display 24 hour format, defaults to false 
+            upArrow: 'wickedpicker__controls__control-up', //The up arrow class selector to use, for custom CSS 
+            downArrow: 'wickedpicker__controls__control-down', //The down arrow class selector to use, for custom CSS 
+            close: 'wickedpicker__close', //The close class selector to use, for custom CSS 
+            hoverState: 'hover-state', //The hover state class to use, for custom CSS 
+            title: 'Time picker', //The Wickedpicker's title, 
+            showSeconds: true, //Whether or not to show seconds, 
+            secondsInterval: 1, //Change interval for seconds, defaults to 1 , 
+            minutesInterval: 1, //Change interval for minutes, defaults to 1 
+            beforeShow: null, //A function to be called before the Wickedpicker is shown 
+            show: null, //A function to be called when the Wickedpicker is shown 
+            clearable: false, //Make the picker's input clearable (has clickable "x") 
+        };
+        $("#StartTime").wickedpicker(options);
+    });
+
+    $("#OffTime").click(function () {
+        var options = {
+            
+            twentyFour: true, //Display 24 hour format, defaults to false 
+            upArrow: 'wickedpicker__controls__control-up', //The up arrow class selector to use, for custom CSS 
+            downArrow: 'wickedpicker__controls__control-down', //The down arrow class selector to use, for custom CSS 
+            close: 'wickedpicker__close', //The close class selector to use, for custom CSS 
+            hoverState: 'hover-state', //The hover state class to use, for custom CSS 
+            title: 'Time picker', //The Wickedpicker's title, 
+            showSeconds: true, //Whether or not to show seconds, 
+            secondsInterval: 1, //Change interval for seconds, defaults to 1 , 
+            minutesInterval: 1, //Change interval for minutes, defaults to 1 
+            beforeShow: null, //A function to be called before the Wickedpicker is shown 
+            show: null, //A function to be called when the Wickedpicker is shown 
+            clearable: false, //Make the picker's input clearable (has clickable "x") 
+        };
+        $("#OffTime").wickedpicker(options);
+    });
+
+    $(function () {
+        $("#date").datepicker({
+            dateFormat: "dd/mm/yy"
+        });
+
+        var x = $("#date").val();
+        if (x != "") {
+            var inputval = x.split(" ");
+            var dateval = new Date(inputval[0]);
+            var month = ("0" + (dateval.getMonth() + 1)).slice(-2);
+            var day = ("0" + dateval.getDate()).slice(-2)
+            var year = dateval.getUTCFullYear();
+
+            var dt = day + "/" + month + "/" + year;
+            $("#date").val(dt);
+        } else {
+            $("#date").val("");
+        }
+
+    });
+</script>

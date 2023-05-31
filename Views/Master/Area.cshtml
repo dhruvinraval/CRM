@@ -1,0 +1,85 @@
+﻿@using System.Data
+@using RX108_Data
+@model area
+@{
+    ViewData["Title"] = "Area";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="@ViewBag.Class">
+    @ViewBag.Msg
+</div>
+
+<style>
+    .error {
+        color: red;
+    }
+</style>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+        <a class="navbar-brand" href="#">Add New Area</a>
+    </div>
+    <form class="form-inline my-2 my-lg-0 float-right">
+
+        <a href="../Master/AreaList" class="btn btn-outline-info pull-right">
+            <i class="fa fa-list"></i>
+            Back To List
+        </a>
+    </form>
+</nav>
+<br />
+
+@using (Html.BeginForm("Area", "Master", FormMethod.Post, new { @class = "form-horizontal" }))
+{
+    <div class="container">
+
+
+        <div class="form-group">
+            @Html.HiddenFor(m => m.SrNo)
+            <label class="control-label col-sm-3 ">Select District Name  </label>
+            <div class="col-sm-3">
+                @{
+                    List<district> lst = new List<district>();
+                    int total = 0, i = 1;
+                    lst = district.GetAll("", 11, i, 5, ref total);
+                    if (total > 5)
+                    {
+                        double pg = (double)total / 5;
+                        int x = Convert.ToInt32(pg.ToString().Substring(pg.ToString().IndexOf('.') + 1));
+                        if (x > 0)
+                        {
+                            x = x + 1;
+                        }
+                        if (x > 1)
+                        {
+                            while (x > 1)
+                            {
+                                i++;
+                                lst.AddRange(district.GetAll("", 11, i, 5, ref total));
+                                x--;
+                            }
+                        }
+                    }
+                    @Html.DropDownListFor(m => m.Mst_District_SrNo, new SelectList(lst, "SrNo", "DistrictName", ""), new { @class = "form-control" })
+                }
+            </div>
+            <label class="control-label col-sm-3 ">Enter Area Name  </label>
+            <div class="col-sm-3">
+                @Html.TextBoxFor(m => m.AreaName, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.AreaName, "", new { @class = "error" })
+            </div>
+            <label class="control-label col-sm-3 ">Enter Zip Code </label>
+            <div class="col-sm-3">
+                @Html.TextBoxFor(m => m.ZIPCode, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.ZIPCode, "", new { @class = "error" })
+            </div>
+        </div>
+
+        <div class="form-group col-sm-2">
+            <input type="submit" name="submit" value="Save" id="Save" class="btn btn-success" />
+        </div>
+    </div>
+}
+<script src="~/lib/jquery/dist/jquery.js"></script>
+<script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
