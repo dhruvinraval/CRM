@@ -1,0 +1,8 @@
+E:\VIPL\MCA-final-Project\VIPL_CRM\RX108_Data\bin\Debug\netcoreapp3.1\RX108_Data.deps.json
+E:\VIPL\MCA-final-Project\VIPL_CRM\RX108_Data\bin\Debug\netcoreapp3.1\RX108_Data.dll
+E:\VIPL\MCA-final-Project\VIPL_CRM\RX108_Data\obj\Debug\netcoreapp3.1\RX108_Data.csprojAssemblyReference.cache
+E:\VIPL\MCA-final-Project\VIPL_CRM\RX108_Data\obj\Debug\netcoreapp3.1\RX108_Data.AssemblyInfoInputs.cache
+E:\VIPL\MCA-final-Project\VIPL_CRM\RX108_Data\obj\Debug\netcoreapp3.1\RX108_Data.AssemblyInfo.cs
+E:\VIPL\MCA-final-Project\VIPL_CRM\RX108_Data\bin\Debug\netcoreapp3.1\RX108_Data.pdb
+E:\VIPL\MCA-final-Project\VIPL_CRM\RX108_Data\obj\Debug\netcoreapp3.1\RX108_Data.dll
+E:\VIPL\MCA-final-Project\VIPL_CRM\RX108_Data\obj\Debug\netcoreapp3.1\RX108_Data.pdb
