@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29806.167
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VIPL_CRM", "VIPL_CRM\VIPL_CRM.csproj", "{0835759C-285F-47A3-BBB4-2240F9C1D00D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RX108_Data", "RX108_Data\RX108_Data.csproj", "{37E18EAE-42BB-416D-B202-51B0EEEE8DE3}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0835759C-285F-47A3-BBB4-2240F9C1D00D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0835759C-285F-47A3-BBB4-2240F9C1D00D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0835759C-285F-47A3-BBB4-2240F9C1D00D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0835759C-285F-47A3-BBB4-2240F9C1D00D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{37E18EAE-42BB-416D-B202-51B0EEEE8DE3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{37E18EAE-42BB-416D-B202-51B0EEEE8DE3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{37E18EAE-42BB-416D-B202-51B0EEEE8DE3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{37E18EAE-42BB-416D-B202-51B0EEEE8DE3}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {9CAF05C4-2E52-4D89-A870-57C2E7977619}
+	EndGlobalSection
+EndGlobal
